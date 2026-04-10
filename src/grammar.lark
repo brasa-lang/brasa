@@ -1,0 +1,9 @@
+start:calculation+
+
+OPERATOR: "+" | "-" | "*" | "/"
+NUMBER: /[0-9]+/
+
+calculation: NUMBER OPERATOR NUMBER
+
+%import common.WS
+%ignore WS
