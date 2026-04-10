@@ -2,6 +2,10 @@ from lark.visitors import Interpreter
 
 from environment import Environment
 
+class ReturnSignal(Exception):
+  def __init__(self, value):
+    self.value = value
+
 class BrasaInterpreter(Interpreter):
   def __init__(self):
     self.current_env=Environment()
@@ -131,3 +135,61 @@ class BrasaInterpreter(Interpreter):
         self.visit(child)
     finally:
       self.current_env=self.current_env.parent
+
+  def function_def(self,tree):
+    name=str(tree.children[0])
+    return_type=str(tree.children[-2])
+    block=tree.children[-1]
+    
+    params=[]
+    for p in tree.find_data('param'):
+      params.append({
+        'type':str(p.children[0]),
+        'name':str(p.children[1])
+      })
+
+    data={
+      'params': params,
+      'return_type': return_type,
+      'block': block,
+      'closure': self.current_env
+    }
+
+    self.current_env.define(name,data,'funcao')
+
+  def function_call(self, tree):
+    name=str(tree.children[0])
+    func=self.current_env.get_value(name)
+    
+    args=[self.visit_if_tree(c) for c in tree.children[1:]]
+    
+    new_env=Environment(parent=func['closure'])
+    
+    for param,arg in zip(func['params'],args):
+      self.validate_var_type(param['type'],arg,param['name'])
+      new_env.define(param['name'],arg,param['type'])
+        
+    old_env=self.current_env
+    self.current_env=new_env
+    result=None
+    
+    try:
+      self.visit(func['block'])
+    except ReturnSignal as rs:
+      result=rs.value
+    finally:
+      self.current_env=old_env
+
+    if func['return_type']!='void':
+      self.validate_var_type(func['return_type'],result,f'retorno de {name}')
+    elif result is not None and func['return_type']=='void':
+      raise TypeError(f'Função "{name}" é void e não deve retornar valor.')
+
+    return result
+
+  def return_statement(self,tree):
+    value=None
+    if tree.children:
+      value=self.visit_if_tree(tree.children[0])
+
+    raise ReturnSignal(value)

@@ -1,10 +1,17 @@
 int count:=10;
 
+func test(int x)->int{
+  diga("test");
+  retorna 1;
+}
+
+test();
+
 se(10>0){
   int count:=20;
   enquanto(count>0){
+    count:=count-test(5);
     diga(count);
-    count:=count-1;
   }
 }
 
