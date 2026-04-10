@@ -1,9 +1,15 @@
-start:calculation+
+start:(statement|func)+
 
 OPERATOR: "+" | "-" | "*" | "/"
 NUMBER: /[0-9]+/
-
 calculation: NUMBER OPERATOR NUMBER
+
+ID: /[a-zA-Z_][a-zA-Z0-9_]*/
+
+statement: calculation ";"
+
+func: "func" ID "(" arg_list? ")" "{" statement* "}"
+arg_list: ID ("," ID)*
 
 %import common.WS
 %ignore WS
