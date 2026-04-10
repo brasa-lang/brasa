@@ -2,11 +2,20 @@ from lark import Transformer
 
 from environment import Environment
 
-ops={
+ops_math={
   '+':lambda a,b:a+b,
   '-':lambda a,b:a-b,
   '*':lambda a,b:a*b,
   '/':lambda a,b:a/b,
+}
+
+ops_boolean={
+  "==":lambda a,b:a==b,
+  "!=":lambda a,b:a!=b,
+  ">":lambda a,b:a>b,
+  "<":lambda a,b:a<b,
+  ">=":lambda a,b:a>=b,
+  "<=":lambda a,b:a<=b,
 }
 
 class Interpreter(Transformer):
@@ -29,12 +38,22 @@ class Interpreter(Transformer):
 
   def calculation(self, children):
     left,op,right=children
-    return ops[op](left,right)
+    return ops_math[op](left,right)
 
   def diga_statement(self,children):
     value=children[0]
     print(value)
     return value
+
+  def true_val(self):
+    return True
+
+  def false_val(self):
+    return False
+
+  def comparison(self,children):
+    left,op,right=children
+    return ops_boolean[op](left, right)
 
   def start(self,children):
     return children

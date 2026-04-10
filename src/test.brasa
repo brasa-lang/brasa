@@ -2,3 +2,9 @@ x = 10;
 y = 5 + x;
 diga(y);
 diga(x * 2);
+
+is_greater=x>5;
+diga(is_greater);
+
+is_equal=x==10;
+diga(is_equal);
