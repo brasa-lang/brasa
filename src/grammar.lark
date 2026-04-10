@@ -1,15 +1,38 @@
-start:(statement|func)+
+start:top_item+
 
-OPERATOR: "+" | "-" | "*" | "/"
+?top_item: statement
+
+?expr: NUMBER -> number
+  | ID -> var_lookup
+  | calculation
+
+calculation: expr OPERATOR expr
+OPERATOR: "+"|"-"|"*"|"/"
 NUMBER: /[0-9]+/
-calculation: NUMBER OPERATOR NUMBER
-
 ID: /[a-zA-Z_][a-zA-Z0-9_]*/
 
-statement: calculation ";"
+?statement: assignment ";"
+  | diga_statement ";"
+  | calculation ";"
 
-func: "func" ID "(" arg_list? ")" "{" statement* "}"
-arg_list: ID ("," ID)*
+assignment: ID "=" expr
+diga_statement: "diga" "(" expr ")"
+
+
+
+
+
+//?top_item:statement|func
+//?expr:NUMBER|ID|call
+//OPERATOR: "+" | "-" | "*" | "/"
+//NUMBER: /[0-9]+/
+//calculation: expr OPERATOR expr
+//ID: /[a-zA-Z_][a-zA-Z0-9_]*/
+//call: ID "(" (expr ("," expr)*)? ")"
+//statement: (calculation|call) ";"
+//func: "func" ID "(" arg_list? ")" "{" statement* "}"
+//arg_list: ID ("," ID)*
+//block: "{" (statement | func | block)* "}"
 
 %import common.WS
 %ignore WS
