@@ -4,6 +4,9 @@ from src.core.nodes.statements import *
 from src.core.nodes.types import *
 from src.core.nodes.literals import *
 
+from src.core.nodes.operators import BinaryOp
+from src.core.utils.operators import BinOp
+
 class ASTBuilder(Transformer):
   # ---------------- PROGRAM ----------------
 
@@ -60,6 +63,9 @@ class ASTBuilder(Transformer):
   def nullable_type(self,type_):
     return NullableType(base_type=type_)
 
+  def bool_type(self):
+    return Boolean
+
   @v_args(inline=True)
   def array_type(self,element_type,size):
     return ArrayType(
@@ -86,3 +92,59 @@ class ASTBuilder(Transformer):
       elements=[]
 
     return ArrayLiteral(elements=elements)
+
+  # ---------------- OPERATORS ----------------
+
+  # ---------------- MATH ----------------
+
+  @v_args(inline=True)
+  def add(self, left, right):
+    return BinaryOp(left, BinOp.ADD, right)
+
+  @v_args(inline=True)
+  def sub(self, left, right):
+    return BinaryOp(left, BinOp.SUB, right)
+
+  @v_args(inline=True)
+  def mul(self, left, right):
+    return BinaryOp(left, BinOp.MUL, right)
+
+  @v_args(inline=True)
+  def div(self, left, right):
+    return BinaryOp(left, BinOp.DIV, right)
+
+  # ---------------- COMPARISONS ----------------
+
+  @v_args(inline=True)
+  def gt(self, left, right):
+    return BinaryOp(left, BinOp.GT, right)
+
+  @v_args(inline=True)
+  def lt(self, left, right):
+    return BinaryOp(left, BinOp.LT, right)
+
+  @v_args(inline=True)
+  def ge(self, left, right):
+    return BinaryOp(left, BinOp.GE, right)
+
+  @v_args(inline=True)
+  def le(self, left, right):
+    return BinaryOp(left, BinOp.LE, right)
+
+  @v_args(inline=True)
+  def eq(self, left, right):
+    return BinaryOp(left, BinOp.EQ, right)
+
+  @v_args(inline=True)
+  def ne(self, left, right):
+    return BinaryOp(left, BinOp.NE, right)
+
+  # ---------------- LOGICAL ----------------
+
+  @v_args(inline=True)
+  def and_op(self, left, right):
+    return BinaryOp(left, BinOp.AND, right)
+
+  @v_args(inline=True)
+  def or_op(self, left, right):
+    return BinaryOp(left, BinOp.OR, right)

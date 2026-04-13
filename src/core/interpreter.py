@@ -1,6 +1,8 @@
 from src.symbols.scope import Scope
 from src.symbols.world import World
 
+from src.core.utils.operators import BinOp
+
 class Interpreter:
   # ---------------- PROGRAM ----------------
 
@@ -64,6 +66,41 @@ class Interpreter:
 
   def visit_ArrayLiteral(self, node):
     return [self.visit(elem) for elem in node.elements]
+
+  def visit_BinaryOp(self, node):
+    left = self.visit(node.left)
+    right = self.visit(node.right)
+
+    op = node.op
+
+    if op == BinOp.ADD:
+      return left + right
+    if op == BinOp.SUB:
+      return left - right
+    if op == BinOp.MUL:
+      return left * right
+    if op == BinOp.DIV:
+      return left / right
+
+    if op == BinOp.GT:
+      return left > right
+    if op == BinOp.LT:
+      return left < right
+    if op == BinOp.GE:
+      return left >= right
+    if op == BinOp.LE:
+      return left <= right
+    if op == BinOp.EQ:
+      return left == right
+    if op == BinOp.NE:
+      return left != right
+
+    if op == BinOp.AND:
+      return left and right
+    if op == BinOp.OR:
+      return left or right
+
+    raise Exception(f"Unknown operator: {op}")
 
   # ---------------- STATEMENTS ----------------
 
