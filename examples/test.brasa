@@ -1,15 +1,14 @@
-int a:=10;
-int? b := 5;
-const texto c := "Ola";
-real d := a;
-logico? e := verdadeiro;
-int? f := nulo;
+int x := 5;
+const int y := 10;
 
-f := 55;
+int? w := 5;
+const int? x := 5;
 
-diga(a);
-diga(b);
-diga(c);
-diga(d);
-diga(e);
-diga(f);
+int z := nulo;
+int? z := nulo;
+
+real m:=3.14;
+
+int[3] x := [1,2,3];
+int[2]? z := [];
+int?[2] z := [];

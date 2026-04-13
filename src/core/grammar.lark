@@ -1,0 +1,41 @@
+?start: program
+program: statement*
+
+statement: var_declaration
+         | var_declaration_null
+
+var_declaration: [CONST] type ID ":=" expr ";"
+var_declaration_null: [CONST] type ID ";"
+
+# ---------------- TYPES ----------------
+
+?type: base_type
+     | array_type
+     | nullable_type
+
+base_type: "int"                      -> int_type
+         | "real"                     -> float_type
+
+array_type: type "[" expr "]"      -> array_type
+nullable_type: type "?"               -> nullable_type
+
+# ---------------- EXPRESSIONS ----------------
+
+?expr: literal
+     | array_literal
+
+array_literal: "[" [expr ("," expr)*] "]"   -> array_literal
+
+?literal: FLOAT          -> float_literal
+        | INTEGER        -> integer_literal
+        | "nulo"         -> null_literal
+
+# ---------------- TOKENS ----------------
+
+CONST: "const"
+ID: /[a-zA-Z_][a-zA-Z0-9_]*/
+INTEGER: /\d+/
+FLOAT: /\d+\.\d+/
+
+%import common.WS
+%ignore WS
