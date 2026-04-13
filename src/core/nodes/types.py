@@ -17,6 +17,10 @@ class NullableType(Type):
   base_type:Type
 
 @dataclass
+class BooleanType(Type):
+  pass
+
+@dataclass
 class ArrayType(Type):
   element_type:Type
   size:int

@@ -21,6 +21,7 @@ print_variable: expr ";"
 
 base_type: "int"                      -> int_type
          | "real"                     -> float_type
+         | "logico"                   -> boolean_type
 
 array_type: type "[" expr "]"      -> array_type
 nullable_type: type "?"               -> nullable_type
@@ -36,6 +37,8 @@ array_literal: "[" [expr ("," expr)*] "]"   -> array_literal
 ?literal: FLOAT          -> float_literal
         | INTEGER        -> integer_literal
         | "nulo"         -> null_literal
+        | "verdadeiro"   -> true_literal
+        | "falso"        -> false_literal
 
 # ---------------- TOKENS ----------------
 
