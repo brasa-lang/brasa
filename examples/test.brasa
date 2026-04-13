@@ -44,4 +44,7 @@ m;
 m:=y;
 m;
 
+logico mmm := falso;
+mmm;
+
 //x;

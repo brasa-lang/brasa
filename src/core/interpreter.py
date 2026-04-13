@@ -62,6 +62,9 @@ class Interpreter:
   def visit_NullLiteral(self, node):
     return None
 
+  def visit_BooleanLiteral(self, node):
+    return node.value
+
   def visit_ArrayLiteral(self, node):
     return [self.visit(elem) for elem in node.elements]
 
@@ -72,5 +75,9 @@ class Interpreter:
 
     if value is None:
       print('nulo')
+    elif value is True:
+      print('verdadeiro')
+    elif value is False:
+      print('falso')
     else:
       print(value)
