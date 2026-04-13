@@ -6,6 +6,7 @@ from src.core.nodes.literals import *
 
 class ASTBuilder(Transformer):
   # ---------------- PROGRAM ----------------
+
   def program(self,statements):
     return Program(statements=statements)
 
@@ -13,7 +14,7 @@ class ASTBuilder(Transformer):
   def statement(self, item):
     return item
 
-  # ---------------- VAR DECLARATION ----------------
+  # ---------------- VARIABLES ----------------
 
   def ID(self,name):
     return Identifier(name=str(name))
@@ -42,6 +43,10 @@ class ASTBuilder(Transformer):
       id=id,
       expr=expr
     )
+
+  @v_args(inline=True)
+  def print_variable(self,expr):
+    return PrintStatement(expr)
 
   # ---------------- TYPES ----------------
 

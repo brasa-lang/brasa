@@ -1,23 +1,21 @@
 class Scope:
-  def __init__(self,parent=None):
-    self.parent=parent # points to the parent scope, if any. If None, this is the global scope.
+  def __init__(self, parent=None):
+    self.parent = parent
+    self.symbols = {} # variable name -> entity id
 
-    self.symbols={} # str (name of the variable) -> int (id of the variable in the world)
+  # ---------------- DECLARE ----------------
+  def declare(self, name, var_id):
+    if name in self.symbols:
+      raise Exception(f'Error: Variable "{name}" has already been declared in this scope')
 
-  # const numero x := 5;
-  def declare(
-    self,
-    name,
-    type_name,
-    initial_value=None,
-    is_const=False,
-  ):
-    pass
+    self.symbols[name] = var_id
 
-  # numero x := 20;
-  def assign(self,name,value):
-    pass
+  # ---------------- LOOKUP ----------------
+  def lookup(self, name):
+    if name in self.symbols:
+      return self.symbols[name]
 
-  # x
-  def lookup(self,name):
-    pass
+    if self.parent:
+      return self.parent.lookup(name)
+
+    raise Exception(f'Variable "{name}" has not been found')

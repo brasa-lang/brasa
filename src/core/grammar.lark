@@ -4,10 +4,14 @@ program: statement*
 statement: var_declaration
          | var_declaration_null
          | update_variable
+         | print_variable
 
 var_declaration: [CONST] type ID ":=" expr ";"
 var_declaration_null: [CONST] type ID ";"
 update_variable: ID ":=" expr ";"
+
+# REMOVE LATER
+print_variable: expr ";"
 
 # ---------------- TYPES ----------------
 
@@ -25,6 +29,7 @@ nullable_type: type "?"               -> nullable_type
 
 ?expr: literal
      | array_literal
+     | ID
 
 array_literal: "[" [expr ("," expr)*] "]"   -> array_literal
 

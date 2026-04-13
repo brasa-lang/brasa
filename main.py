@@ -6,6 +6,7 @@ from pathlib import Path
 from lark import Lark
 
 from src.core.ast_builder import ASTBuilder
+from src.core.interpreter import Interpreter
 
 def run_brasa():
   if len(sys.argv)<2:
@@ -37,7 +38,10 @@ def run_brasa():
   transformer=ASTBuilder()
   ast=transformer.transform(raw_tree)
 
-  pprint(ast)
+  # pprint(ast)
+
+  interpreter=Interpreter()
+  interpreter.visit(ast)
 
 if __name__=='__main__':
   run_brasa()

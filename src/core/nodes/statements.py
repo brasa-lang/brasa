@@ -22,3 +22,7 @@ class VarDeclarationStatement:
 class UpdateVariableStatement:
   id:str
   expr:Literal
+
+@dataclass
+class PrintStatement:
+  expr:Literal
