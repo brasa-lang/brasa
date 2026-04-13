@@ -1,3 +1,0 @@
-# Brasa Lab
-
-Olá, Mundo!

@@ -2,6 +2,12 @@ site_name: Brasa Language
 theme:
   name: material
   language: pt-br
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tabs
+    - navigation.path
+    - navigation.indexes
 extra:
   alternate:
     - name: English
@@ -10,7 +16,31 @@ extra:
     - name: Português
       link: /pt-br
       lang: pt-br
+nav:
+  - Home: index.md
+  - Tutorial:
+      - Fundamentals:
+        - Introduction: tutorial/fundamentals/introduction.md
+        - Installation: tutorial/fundamentals/installation.md
+        - First Program: tutorial/fundamentals/first-program.md
+      - Getting Started:
+        - Introduction: tutorial/getting-started/introduction.md
+        - Input/Output: tutorial/getting-started/input-output.md
+        - Variables: tutorial/getting-started/variables.md
+        - Basic Operators: tutorial/getting-started/basic-operators.md
+        - Examples:
+          - Average: tutorial/getting-started/examples/average.md
+      - Control Flow:
+        - Introduction: tutorial/control-flow/introduction.md
+        - Conditions: tutorial/control-flow/conditions.md
+        - Loops: tutorial/control-flow/loops.md
+        - Examples:
+          - ExampleA: tutorial/control-flow/examples/exampleA.md
+          - ExampleB: tutorial/control-flow/examples/exampleB.md
+      - Lists:
+        - Introduction: tutorial/lists/introduction.md
+        - Examples:
+          - ExampleA: tutorial/list/examples/exampleA.md
+          - ExampleB: tutorial/list/examples/exampleB.md
 plugins:
   - search
-  # - pyodide_macros:
-  #     setup_script: docs/scripts/interpreter.py

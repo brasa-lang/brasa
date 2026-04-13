@@ -1,8 +1,8 @@
-from src.brasa.environment import Environment
+from brasa.core.scope import Scope
 
 class BrasaInterpreter:
   def __init__(self):
-    self.current_env=Environment()
+    self.current_env=Scope()
 
   def visit(self,node):
     method_name=f'visit_{type(node).__name__}'
@@ -87,7 +87,7 @@ class BrasaInterpreter:
   def visit_IfNode(self,node):
     if self.visit(node.condition):
       previous_env=self.current_env
-      self.current_env=Environment(parent=previous_env)
+      self.current_env=Scope(parent=previous_env)
 
       try:
         for stmt in node.then_block:

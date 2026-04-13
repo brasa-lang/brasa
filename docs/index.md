@@ -1,3 +1,3 @@
-# Brasa Lab
+# Brasa
 
 Hello, World!

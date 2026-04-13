@@ -1,3 +1,15 @@
-texto nome := "Elleanor";
+int a:=10;
+int? b := 5;
+const texto c := "Ola";
+real d := a;
+logico? e := verdadeiro;
+int? f := nulo;
 
-diga(nome);
+f := 55;
+
+diga(a);
+diga(b);
+diga(c);
+diga(d);
+diga(e);
+diga(f);

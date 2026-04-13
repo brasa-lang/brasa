@@ -1,5 +1,5 @@
 from lark import Transformer
-from src.brasa.nodes import *
+from brasa.core.nodes import *
 
 class BrasaTransformer(Transformer):
   # Literals

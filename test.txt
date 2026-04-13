@@ -1,0 +1,77 @@
+int x := 5;
+real
+logico
+texto
+
+const int
+
+
+
+
+
+constante inteiro
+const
+
+
+
+
+
+
+
+
+
+
+lista<inteiro> names=[5,5,2];
+
+names[0]='';
+
+se(){
+}senao{
+}
+
+senao se
+
+enquanto(){}
+
+continue;
+quebre;
+
+para(inteiro i=0; )
+
+para cada i de 0 ate 10 {}
+
+func nome()->inteiro{
+  retorne x;
+}
+
+**
+
+
+
+matematica.brasa
+exporte x;
+exporte y;
+
+importe './matematica.brasa' como mat;
+
+mat.x
+mat.y
+
+func 
+modelo Pessoa{
+  inteiro x;
+
+  func construtor(inteiro){
+    modelo.
+  }
+
+  construtor(){}
+
+
+}
+
+Pessoa pessoa=Pessoa()
+
+pessoa.
+
+inteiro x;

@@ -5,8 +5,8 @@ from pathlib import Path
 
 from lark import Lark
 
-from src.brasa.transformer import BrasaTransformer
-from src.brasa.interpreter import BrasaInterpreter
+from src.brasa.core.transformer import BrasaTransformer
+from src.brasa.core.interpreter import BrasaInterpreter
 
 def run_brasa():
   if len(sys.argv)<2:
@@ -19,7 +19,7 @@ def run_brasa():
       print(f'Error: File "{file_path}" does not exist.')
       return
 
-  grammar_path=Path(__file__).parent/'src'/'brasa'/'grammar.lark'
+  grammar_path=Path(__file__).parent/'src'/'brasa'/'core'/'grammar.lark'
 
   with open(grammar_path, 'r', encoding='utf-8') as g:
     brasa_parser=Lark(g.read(),start='start')
