@@ -1,6 +1,7 @@
 from brasa.runtime.scope import Scope
 from brasa.runtime.world import World
 
+from brasa.core.nodes.literals import FunctionValue
 from brasa.interpreter.signals import BreakSignal,ContinueSignal,ReturnSignal
 from brasa.core.types.operators import BinOp,UnOp
 
@@ -62,6 +63,31 @@ class Interpreter:
 
   def visit_ContinueStatement(self, node):
     raise ContinueSignal()
+
+  def visit_FunctionDeclaration(self, node):
+    func=FunctionValue(
+      params=node.params,
+      body=node.body,
+      return_type=node.return_type,
+      closure_scope=self.current_scope
+    )
+
+    var_id=self.world.create(
+      type_=None,
+      value=func,
+      is_const=True
+    )
+
+    self.current_scope.declare(node.name.name, var_id)
+
+  def visit_LambdaExpression(self, node):
+    return FunctionValue(
+      params=node.params,
+      body=node.body,
+      return_type=node.return_type,
+      closure_scope=self.current_scope,
+    )
+
   # ---------------- VARIABLES ----------------
 
   def visit_Identifier(self, node):
@@ -202,3 +228,34 @@ class Interpreter:
       print('falso')
     else:
       print(value)
+
+  def visit_CallExpression(self, node):
+    func=self.visit(node.callee)
+    args=[self.visit(arg) for arg in node.args]
+
+    new_scope=Scope(parent=func.closure_scope)
+
+    for param, arg in zip(func.params, args):
+      var_id = self.world.create(type_=param[0], value=arg)
+      new_scope.declare(param[1].name, var_id)
+
+    old_scope=self.current_scope
+    self.current_scope=new_scope
+
+    try:
+      self.visit(func.body)
+      result=None
+    except ReturnSignal as r:
+      result=r.value
+
+    self.current_scope=old_scope
+
+    return result
+
+  def visit_ReturnStatement(self, node):
+    value=None
+
+    if node.expr:
+      value=self.visit(node.expr)
+
+    raise ReturnSignal(value)

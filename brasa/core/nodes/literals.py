@@ -23,3 +23,10 @@ class BooleanLiteral(Literal):
 @dataclass
 class ArrayLiteral(Literal):
   elements:list[any]
+
+@dataclass
+class FunctionValue:
+  params:any
+  body:any
+  return_type:any
+  closure_scope:any

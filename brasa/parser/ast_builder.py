@@ -105,6 +105,9 @@ class ASTBuilder(Transformer):
   def bool_type(self, _):
     return BooleanType()
 
+  def void_type(self, _):
+    return VoidType()
+
   @v_args(inline=True)
   def array_type(self,element_type,size):
     return ArrayType(
@@ -139,6 +142,60 @@ class ASTBuilder(Transformer):
     return ArrayLiteral(elements=elements)
 
   # ---------------- OPERATORS ----------------
+
+  @v_args(inline=True)
+  def func_declaration(self,func_name,parameters,return_type,block):
+    return FunctionDeclaration(
+      name=func_name,
+      params=[] if parameters is None else parameters,
+      return_type=VoidType() if return_type is None else return_type,
+      body=block
+    )
+
+  @v_args(inline=True)
+  def func_type(self, params=None, return_type=None):
+    if params is None:
+      params = []
+    return FunctionType(params, return_type)
+
+  @v_args(inline=True)
+  def call_func(self,id,parameters):
+    return CallExpression(
+      callee=id,
+      args=[] if parameters is None else parameters
+    )
+
+  @v_args(inline=True)
+  def return_type(self, type_):
+    return type_
+
+  def args_list(self, params):
+    return params
+
+  def param_list(self, params):
+    return params
+
+  @v_args(inline=True)
+  def param(self, type_, name):
+    return (type_, name)
+
+  @v_args(inline=True)
+  def return_statement(self, expr=None):
+    return ReturnStatement(expr)
+
+  @v_args(inline=True)
+  def lambda_expr(self, params=None, return_type=None, body=None):
+    if params is None:
+      params = []
+
+    if return_type is None:
+      return_type = VoidType()
+
+    return LambdaExpression(
+      params=params,
+      return_type=return_type,
+      body=body
+    )
 
   # ---------------- MATH ----------------
 

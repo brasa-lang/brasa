@@ -1,20 +1,7 @@
-real x := 0 ou 1;
-x;
-int? y:=nulo;
-int[3][3] mmm;
-
-/*
-
-func foo(int a){
-  retorne func (int b){
-    retorne a+b;
-  };
+func f()->int{
+  retorne 0;
 }
 
-(int)->int? x := (int x){
-  
-};
+f();
 
-const x:()=>int = func;
-
-*/
+f := 10;

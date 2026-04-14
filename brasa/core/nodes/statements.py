@@ -60,3 +60,25 @@ class BreakStatement:
 @dataclass
 class ContinueStatement:
   pass
+
+@dataclass
+class FunctionDeclaration:
+  name:str
+  params:any
+  return_type:any
+  body:any
+
+@dataclass
+class CallExpression:
+  callee:any
+  args:any
+
+@dataclass
+class ReturnStatement:
+  expr:any
+
+@dataclass
+class LambdaExpression:
+  params:any
+  return_type:any
+  body:any

@@ -9,10 +9,14 @@ statement: var_declaration
          | while_statement
          | break_statement
          | continue_statement
+         | return_statement
          | block
          | postfix
+         | func_declaration
+         | call_func
          | print_variable # REMOVE LATER
          | expr ";"
+         | call_func ";"
 
 block: "{" statement* "}"   -> block
 ?body: block
@@ -49,6 +53,11 @@ print_variable: expr ";"
 base_type: "int"                      -> int_type
          | "real"                     -> float_type
          | "logico"                   -> bool_type
+         | "vazio"                    -> void_type
+         | func_type                  -> func_type
+
+func_type: "(" [type_list] ")" "->" type
+type_list: type ("," type)*
 
 array_type: type "[" expr "]"      -> array_type
 nullable_type: type "?"               -> nullable_type
@@ -59,6 +68,8 @@ nullable_type: type "?"               -> nullable_type
      | array_literal
      | ID
      | or_expr
+     | lambda_expr
+     | call_func
 
 array_literal: "[" [expr ("," expr)*] "]"   -> array_literal
 
@@ -116,8 +127,22 @@ if_statement: "se" "(" expr ")" body ( "senao" body )?
 # ---------------- LOOP ----------------
 
 while_statement: "enquanto" "(" expr ")" block   -> while_statement
-break_statement: "pare" ";"        -> break_statement
-continue_statement: "continue" ";" -> continue_statement
+break_statement: "pare" ";"                      -> break_statement
+continue_statement: "continue" ";"               -> continue_statement
+
+# ---------------- FUNCTIONS ----------------
+
+func_declaration: "func" ID "(" [param_list] ")" ["->" type] block
+call_func: ID "(" [args_list] ")"
+
+args_list: expr ("," expr)*
+
+param_list: param ("," param)*
+param: type ID
+
+lambda_expr: "func" "(" [param_list] ")" ["->" type] block -> lambda_expr
+
+return_statement: "retorne" expr? ";" -> return_statement
 
 # ---------------- CONFIG ----------------
 

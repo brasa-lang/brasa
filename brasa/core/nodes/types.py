@@ -24,3 +24,12 @@ class BooleanType(Type):
 class ArrayType(Type):
   element_type:Type
   size:int
+
+@dataclass
+class VoidType(Type):
+  pass
+
+@dataclass
+class FunctionType(Type):
+  param_types:any
+  return_type:any
