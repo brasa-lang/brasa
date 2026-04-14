@@ -19,9 +19,20 @@ class VarDeclarationStatement:
   is_const:bool
 
 @dataclass
-class UpdateVariableStatement:
+class AssignStatement:
   id:str
   expr:Literal
+
+@dataclass
+class CompoundAssignStatement:
+  id:any
+  op:any
+  expr:any
+
+@dataclass
+class PostfixStatement:
+  id:str
+  op:any
 
 @dataclass
 class PrintStatement:

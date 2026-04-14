@@ -3,13 +3,15 @@ program: statement*
 
 statement: var_declaration
          | var_declaration_null
-         | update_variable
+         | assignment
+         | compound_assignment
          | if_statement
          | while_statement
          | break_statement
          | continue_statement
          | block
-         | print_variable
+         | postfix
+         | print_variable # REMOVE LATER
          | expr ";"
 
 block: "{" statement* "}"   -> block
@@ -20,9 +22,19 @@ block: "{" statement* "}"   -> block
 
 var_declaration: [CONST] type ID ":=" expr ";"
 var_declaration_null: [CONST] type ID ";"
-update_variable: ID ":=" expr ";"
 
-lvalue: ID
+assignment: lvalue ":=" expr ";"                 -> assignment
+compound_assignment: lvalue OP_ASSIGN expr ";"   -> compound_assignment
+OP_ASSIGN: "+="
+         | "-="
+         | "*="
+         | "/="
+
+postfix: lvalue OP_POSTFIX ";"   -> postfix
+OP_POSTFIX: "++"
+          | "--"
+
+?lvalue: ID
       | expr "[" expr "]"
 
 # REMOVE LATER

@@ -79,7 +79,7 @@ class Interpreter:
 
     self.current_scope.declare(node.id.name,var_id)
 
-  def visit_UpdateVariableStatement(self,node):
+  def visit_AssignStatement(self,node):
     var_id = self.current_scope.lookup(node.id.name)
 
     if self.world.is_const(var_id):
@@ -87,6 +87,31 @@ class Interpreter:
 
     value = self.visit(node.expr)
     self.world.set_value(var_id, value)
+
+  def visit_CompoundAssignStatement(self, node):
+    var_id = self.current_scope.lookup(node.id.name)
+    current=self.world.get_value(var_id)
+    value = self.visit(node.expr)
+
+    if node.op == BinOp.ADD:
+      result = current + value
+    elif node.op == BinOp.SUB:
+      result = current - value
+    elif node.op == BinOp.MUL:
+      result = current * value
+    elif node.op == BinOp.DIV:
+      result = current / value
+
+    self.world.set_value(var_id,result)
+
+  def visit_PostfixStatement(self, node):
+    var_id = self.current_scope.lookup(node.id.name)
+    current=self.world.get_value(var_id)
+
+    if node.op==BinOp.ADD:
+      self.world.set_value(var_id,current+1)
+    else:
+      self.world.set_value(var_id,current-1)
 
   # ---------------- LITERALS ----------------
 

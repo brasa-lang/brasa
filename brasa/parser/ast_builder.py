@@ -58,11 +58,33 @@ class ASTBuilder(Transformer):
     )
 
   @v_args(inline=True)
-  def update_variable(self,id,expr):
-    return UpdateVariableStatement(
+  def assigment(self,id,expr):
+    return AssignStatement(
       id=id,
       expr=expr
     )
+
+  @v_args(inline=True)
+  def compound_assignment(self,id,op,expr):
+    return CompoundAssignStatement(
+      id=id,
+      op=op,
+      expr=expr
+    )
+
+  @v_args(inline=True)
+  def postfix(self,id,op):
+    return PostfixStatement(
+      id=id,
+      op=op
+    )
+
+  def OP_POSTFIX(self, token):
+    return token.value
+
+  @v_args(inline=True)
+  def postfix(self, id, op):
+    return PostfixStatement(id, op)
 
   @v_args(inline=True)
   def print_variable(self,expr):
@@ -139,6 +161,22 @@ class ASTBuilder(Transformer):
   @v_args(inline=True)
   def neg(self, value):
       return UnaryOp(UnOp.NEG, value)
+
+  @v_args(inline=True)
+  def OP_ASSIGN(self, token):
+    return {
+      '+=': BinOp.ADD,
+      '-=': BinOp.SUB,
+      '*=': BinOp.MUL,
+      '/=': BinOp.DIV,
+    }[token]
+
+  @v_args(inline=True)
+  def OP_POSTFIX(self, token):
+    if token=='++':
+      return BinOp.ADD
+
+    return BinOp.SUB
 
   # ---------------- COMPARISONS ----------------
 
