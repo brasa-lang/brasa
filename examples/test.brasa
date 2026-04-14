@@ -1,14 +1,20 @@
-int x := 5;
-
-x += 6;
-x/=2;
-
-x++;
-x--;
-x--;
-
+real x := 0 ou 1;
 x;
+int? y:=nulo;
+int[3][3] mmm;
 
-int[3] numbers:=[1,2,3];
+/*
 
-numbers;
+func foo(int a){
+  retorne func (int b){
+    retorne a+b;
+  };
+}
+
+(int)->int? x := (int x){
+  
+};
+
+const x:()=>int = func;
+
+*/
