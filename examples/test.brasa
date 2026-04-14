@@ -53,3 +53,13 @@ mmm;
 
 se(falso) x;
 senao m;
+
+int akagi := 10;
+
+enquanto(akagi>0){
+  akagi := akagi - 1;
+
+  se(akagi==5)continue;
+  
+  akagi;
+}

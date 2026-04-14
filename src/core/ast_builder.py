@@ -18,12 +18,21 @@ class ASTBuilder(Transformer):
     return item
 
   def block(self,statements):
-    print(statements)
     return Block(list(statements))
 
   @v_args(inline=True)
   def if_statement(self, cond, then_block, else_branch=None):
     return IfStatement(cond, then_block, else_branch)
+
+  @v_args(inline=True)
+  def while_statement(self, condition, body):
+    return WhileStatement(condition, body)
+
+  def break_statement(self, _):
+    return BreakStatement()
+
+  def continue_statement(self, _):
+    return ContinueStatement()
 
   # ---------------- VARIABLES ----------------
 

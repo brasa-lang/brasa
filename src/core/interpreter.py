@@ -1,6 +1,7 @@
 from src.symbols.scope import Scope
 from src.symbols.world import World
 
+from src.core.nodes.signals import BreakSignal,ContinueSignal,ReturnSignal
 from src.core.utils.operators import BinOp,UnOp
 
 class Interpreter:
@@ -45,6 +46,22 @@ class Interpreter:
     if node.else_branch:
       return self.visit(node.else_branch)
 
+  def visit_WhileStatement(self, node):
+    while self.visit(node.condition):
+      try:
+        self.visit(node.body)
+
+      except ContinueSignal:
+        continue
+
+      except BreakSignal:
+        break
+
+  def visit_BreakStatement(self, node):
+    raise BreakSignal()
+
+  def visit_ContinueStatement(self, node):
+    raise ContinueSignal()
   # ---------------- VARIABLES ----------------
 
   def visit_Identifier(self, node):

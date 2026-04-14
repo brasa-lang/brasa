@@ -36,3 +36,16 @@ class IfStatement:
 @dataclass
 class Block:
   statements:any
+
+@dataclass
+class WhileStatement:
+  condition:any
+  body:any
+
+@dataclass
+class BreakStatement:
+  pass
+
+@dataclass
+class ContinueStatement:
+  pass

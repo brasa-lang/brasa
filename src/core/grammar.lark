@@ -4,11 +4,16 @@ program: statement*
 statement: var_declaration
          | var_declaration_null
          | update_variable
-         | print_variable
          | if_statement
+         | while_statement
+         | break_statement
+         | continue_statement
          | block
+         | print_variable
 
 block: "{" statement* "}"   -> block
+?body: block
+     | statement
 
 # ---------------- VARIABLES ----------------
 
@@ -92,8 +97,11 @@ FLOAT: /\d+\.\d+/
 
 if_statement: "se" "(" expr ")" body ( "senao" body )?
 
-?body: block
-     | statement
+# ---------------- LOOP ----------------
+
+while_statement: "enquanto" "(" expr ")" block   -> while_statement
+break_statement: "pare" ";"        -> break_statement
+continue_statement: "continue" ";" -> continue_statement
 
 # ---------------- CONFIG ----------------
 
