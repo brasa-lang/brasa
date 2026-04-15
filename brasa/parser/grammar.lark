@@ -1,10 +1,7 @@
-# ---------------- PROGRAM ----------------
-
 ?start: program
 program: statement*
 
-statement: var_declaration
-         | var_declaration_null
+statement: variable_declaration
          | assignment
          | compound_assignment
          | if_statement
@@ -14,11 +11,11 @@ statement: var_declaration
          | return_statement
          | block
          | postfix
-         | func_declaration
-         | call_func
+         | function_declaration
+         | call_function
          | print_variable # REMOVE LATER
          | expr ";"
-         | call_func ";"
+         | call_function ";"
 
 block: "{" statement* "}"   -> block
 ?body: block
@@ -34,8 +31,7 @@ STRING: /"[^"]*"/
 
 # ---------------- VARIABLES ----------------
 
-var_declaration: [CONST] type ID ":=" expr ";"
-var_declaration_null: [CONST] type ID ";"
+variable_declaration: [CONST] type ID [":=" expr] ";"
 
 assignment: lvalue ":=" expr ";"                 -> assignment
 compound_assignment: lvalue OP_ASSIGN expr ";"   -> compound_assignment
@@ -48,7 +44,7 @@ postfix: lvalue OP_POSTFIX ";"   -> postfix
 OP_POSTFIX: "++"
           | "--"
 
-?lvalue: ID                      -> var_lvalue
+?lvalue: ID                      -> variable_lvalue
       | lvalue "[" expr "]"      -> index_lvalue
 
 # REMOVE LATER
@@ -60,18 +56,18 @@ print_variable: expr ";"
      | array_type
      | nullable_type
 
-base_type: "int"                      -> int_type
-         | "real"                     -> float_type
-         | "logico"                   -> bool_type
-         | "texto"                    -> string_type
-         | "vazio"                    -> void_type
-         | func_type                  -> func_type
+base_type: "int"                            -> int_type
+         | "real"                           -> float_type
+         | "logico"                         -> bool_type
+         | "texto"                          -> string_type
+         | "vazio"                          -> void_type
+         | func_type                        -> func_type
 
 func_type: "(" [type_list] ")" "->" type
 type_list: type ("," type)*
 
-array_type: type "[" expr "]"      -> array_type
-nullable_type: type "?"               -> nullable_type
+array_type: type "[" expr "]"               -> array_type
+nullable_type: type "?"                     -> nullable_type
 
 # ---------------- EXPRESSIONS ----------------
 
@@ -80,50 +76,50 @@ nullable_type: type "?"               -> nullable_type
      | ID
      | or_expr
      | lambda_expr
-     | call_func
+     | call_function
 
-array_literal: "[" [expr ("," expr)*] "]"   -> array_literal
+array_literal: "[" [expr ("," expr)*] "]"   -> array_value
 
-?literal: FLOAT          -> float_literal
-        | INTEGER        -> integer_literal
-        | STRING         -> string_literal
-        | "nulo"         -> null_literal
-        | "verdadeiro"   -> true_literal
-        | "falso"        -> false_literal
+?literal: FLOAT                             -> float_value
+        | INTEGER                           -> integer_value
+        | STRING                            -> string_value
+        | "nulo"                            -> null_value
+        | "verdadeiro"                      -> true_value
+        | "falso"                           -> false_value
 
 # ---------------- OPERATORS ----------------
 
 ?or_expr: and_expr
-        | or_expr "ou" and_expr   -> or_op
+        | or_expr "ou" and_expr          -> or_op
 
 ?and_expr: comparison
-         | and_expr "e" comparison   -> and_op
+         | and_expr "e" comparison       -> and_op
 
 ?comparison: sum
-           | sum ">" sum     -> gt
-           | sum "<" sum     -> lt
-           | sum ">=" sum    -> ge
-           | sum "<=" sum    -> le
-           | sum "==" sum    -> eq
-           | sum "!=" sum    -> ne
+           | sum ">" sum                 -> greater_than
+           | sum "<" sum                 -> less_than
+           | sum ">=" sum                -> greater_than_or_equal_to
+           | sum "<=" sum                -> less_than_or_equal_to
+           | sum "==" sum                -> equal
+           | sum "!=" sum                -> not_equal
 
 ?sum: term
-    | sum "+" term   -> add
-    | sum "-" term   -> sub
+    | sum "+" term                       -> add
+    | sum "-" term                       -> sub
 
 ?term: factor
-     | term "*" factor   -> mul
-     | term "/" factor   -> div
+     | term "*" factor                   -> mul
+     | term "/" factor                   -> div
 
 ?factor: unary
 
-?unary: "-" unary   -> neg
-       | "!" unary  -> not_op
+?unary: "-" unary                        -> neg
+       | "!" unary                       -> not_op
        | atom
 
 ?atom: literal
      | ID
-     | call_func
+     | call_function
      | atom "[" expr "]"   -> index_expr
      | "(" expr ")"
 
@@ -133,23 +129,23 @@ if_statement: "se" "(" expr ")" body ( "senao" body )?
 
 # ---------------- LOOP ----------------
 
-while_statement: "enquanto" "(" expr ")" block   -> while_statement
-break_statement: "pare" ";"                      -> break_statement
-continue_statement: "continue" ";"               -> continue_statement
+while_statement: "enquanto" "(" expr ")" block
+break_statement: "pare" ";"
+continue_statement: "continue" ";"
 
 # ---------------- FUNCTIONS ----------------
 
-func_declaration: "func" ID "(" [param_list] ")" ["->" type] block
-call_func: ID "(" [args_list] ")"
+function_declaration: "func" ID "(" [param_list] ")" ["->" type] block
+call_function: ID "(" [args_list] ")"
 
 args_list: expr ("," expr)*
 
 param_list: param ("," param)*
 param: type ID
 
-lambda_expr: "func" "(" [param_list] ")" ["->" type] block -> lambda_expr
+lambda_expr: "func" "(" [param_list] ")" ["->" type] block
 
-return_statement: "retorne" expr? ";" -> return_statement
+return_statement: "retorne" expr? ";"
 
 # ---------------- CONFIG ----------------
 

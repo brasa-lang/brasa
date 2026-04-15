@@ -1,21 +1,21 @@
-from enum import Enum, auto
+from enum import Enum,auto
 
 class BinaryOperationEnum(Enum):
-  ADD = auto()
-  SUB = auto()
-  MUL = auto()
-  DIV = auto()
+  ADDITION=auto()
+  SUBTRACTION=auto()
+  MULTIPLICATION=auto()
+  DIVISION=auto()
 
-  GT = auto()
-  LT = auto()
-  GE = auto()
-  LE = auto()
-  EQ = auto()
-  NE = auto()
+  GREATER_THAN=auto()
+  LESS_THAN=auto()
+  GREATER_THAN_OR_EQUAL_TO=auto()
+  LESS_THAN_OR_EQUAL_TO=auto()
+  EQUAL=auto()
+  NOT_EQUAL=auto()
 
-  AND = auto()
-  OR = auto()
+  AND=auto()
+  OR=auto()
 
 class UnaryOperationEnum(Enum):
-  NEG = auto()
-  NOT = auto()
+  NEGATIVE=auto()
+  NOT=auto()
