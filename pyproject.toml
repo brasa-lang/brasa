@@ -1,7 +1,8 @@
 [project]
-name = "brasa"
+name = "brasa-lang"
 version = "0.1.0"
 description = "Brasa programming language"
+authors = [{name="Adriano"}]
 requires-python = ">=3.10"
 
 [project.scripts]
