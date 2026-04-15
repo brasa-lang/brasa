@@ -1,28 +1,28 @@
 from dataclasses import dataclass
 
 @dataclass
-class Literal:
+class Value:
   pass
 
 @dataclass
-class IntegerLiteral(Literal):
+class IntegerValue(Value):
   value:int
 
 @dataclass
-class FloatLiteral(Literal):
+class FloatValue(Value):
   value:float
 
 @dataclass
-class NullLiteral(Literal):
+class NullValue(Value):
   pass
 
 @dataclass
-class BooleanLiteral(Literal):
+class BooleanValue(Value):
   value:bool
 
 @dataclass
-class ArrayLiteral(Literal):
-  elements:list[any]
+class ArrayValue(Value):
+  elements:list[Value]
 
 @dataclass
 class FunctionValue:

@@ -1,14 +1,14 @@
 from dataclasses import dataclass
 
-from brasa.core.types.operators import BinOp,UnOp
+from brasa.core.types.operators import BinaryOperationEnum,UnaryOperationEnum
 
 @dataclass
-class BinaryOp:
+class BinaryOperation:
   left:any
-  op:BinOp
+  op:BinaryOperationEnum
   right:any
 
 @dataclass
-class UnaryOp:
-  op:UnOp
+class UnaryOperation:
+  op:UnaryOperationEnum
   expr:any

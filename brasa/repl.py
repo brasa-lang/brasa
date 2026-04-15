@@ -7,22 +7,26 @@ readline.read_history_file('.brasa_history')
 readline.write_history_file('.brasa_history')
 
 def repl():
-  interpreter = Interpreter()
-  buffer = ''
+  interpreter=Interpreter()
+  buffer=''
 
   while True:
     try:
-      prompt = '>>> ' if not buffer else '... '
-      line = input(prompt)
+      prompt='>>> ' if not buffer else '... '
+      line=input(prompt)
 
-      if line.strip() in {'exit', 'quit'}:
+      if line.strip() in {'exit','quit'}:
         break
 
-      buffer += line + '\n'
+      buffer+=line+'\n'
 
       try:
-        result = run_code(buffer, interpreter=interpreter)
-        buffer = ''
+        result=run_code(
+          buffer,
+          interpreter=interpreter
+        )
+
+        buffer=''
 
         if result is not None:
           print(result)
@@ -30,4 +34,4 @@ def repl():
         continue
     except KeyboardInterrupt:
       print('\nKeyboardInterrupt')
-      buffer = ''
+      buffer=''

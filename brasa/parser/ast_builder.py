@@ -1,11 +1,12 @@
 from lark import Transformer,v_args
 
+from brasa.core.nodes.basics import *
 from brasa.core.nodes.statements import *
 from brasa.core.nodes.types import *
-from brasa.core.nodes.literals import *
+from brasa.core.nodes.values import *
 
-from brasa.core.nodes.operators import BinaryOp,UnaryOp
-from brasa.core.types.operators import BinOp,UnOp
+from brasa.core.nodes.operators import BinaryOperation,UnaryOperation
+from brasa.core.types.operators import BinaryOperationEnum,UnaryOperationEnum
 
 class ASTBuilder(Transformer):
   # ---------------- PROGRAM ----------------
@@ -20,20 +21,6 @@ class ASTBuilder(Transformer):
   def block(self,statements):
     return Block(list(statements))
 
-  @v_args(inline=True)
-  def if_statement(self, cond, then_block, else_branch=None):
-    return IfStatement(cond, then_block, else_branch)
-
-  @v_args(inline=True)
-  def while_statement(self, condition, body):
-    return WhileStatement(condition, body)
-
-  def break_statement(self, _):
-    return BreakStatement()
-
-  def continue_statement(self, _):
-    return ContinueStatement()
-
   # ---------------- VARIABLES ----------------
 
   def ID(self,name):
@@ -41,7 +28,7 @@ class ASTBuilder(Transformer):
 
   @v_args(inline=True)
   def var_declaration(self,const,type_,id,expr):
-    return VarDeclarationStatement(
+    return VariableDeclarationStatement(
       id=id,
       type=type_,
       expr=expr,
@@ -50,23 +37,23 @@ class ASTBuilder(Transformer):
 
   @v_args(inline=True)
   def var_declaration_null(self,const,type_,id):
-    return VarDeclarationStatement(
+    return VariableDeclarationStatement(
       id=id,
       type=type_,
-      expr=NullLiteral(),
+      expr=NullValue(),
       is_const=const is not None
     )
 
   @v_args(inline=True)
   def assigment(self,id,expr):
-    return AssignStatement(
+    return AssignmentStatement(
       id=id,
       expr=expr
     )
 
   @v_args(inline=True)
   def compound_assignment(self,id,op,expr):
-    return CompoundAssignStatement(
+    return CompoundAssignmentStatement(
       id=id,
       op=op,
       expr=expr
@@ -119,29 +106,125 @@ class ASTBuilder(Transformer):
 
   @v_args(inline=True)
   def integer_literal(self,value):
-    return IntegerLiteral(value=int(value))
+    return IntegerValue(value=int(value))
 
   @v_args(inline=True)
   def float_literal(self,value):
-    return FloatLiteral(value=float(value))
+    return FloatValue(value=float(value))
 
   def null_literal(self,_):
-    return NullLiteral()
+    return NullValue()
 
   def true_literal(self, _):
-    return BooleanLiteral(True)
+    return BooleanValue(True)
 
   def false_literal(self, _):
-    return BooleanLiteral(False)
+    return BooleanValue(False)
 
   @v_args(inline=True)
   def array_literal(self,*elements):
     if len(elements)==1 and elements[0] is None:
       elements=[]
 
-    return ArrayLiteral(elements=elements)
+    return ArrayValue(elements=elements)
+
+  # ---------------- CONTROL FLOW ----------------
+
+  @v_args(inline=True)
+  def if_statement(self, cond, then_block, else_branch=None):
+    return IfStatement(cond, then_block, else_branch)
+
+  @v_args(inline=True)
+  def while_statement(self, condition, body):
+    return WhileStatement(condition, body)
+
+  def break_statement(self, _):
+    return BreakStatement()
+
+  def continue_statement(self, _):
+    return ContinueStatement()
 
   # ---------------- OPERATORS ----------------
+
+  # ---------------- MATH ----------------
+
+  @v_args(inline=True)
+  def add(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.ADD, right)
+
+  @v_args(inline=True)
+  def sub(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.SUB, right)
+
+  @v_args(inline=True)
+  def mul(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.MUL, right)
+
+  @v_args(inline=True)
+  def div(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.DIV, right)
+
+  @v_args(inline=True)
+  def neg(self, value):
+      return UnaryOperation(UnaryOperationEnum.NEG, value)
+
+  @v_args(inline=True)
+  def OP_ASSIGN(self, token):
+    return {
+      '+=': BinaryOperationEnum.ADD,
+      '-=': BinaryOperationEnum.SUB,
+      '*=': BinaryOperationEnum.MUL,
+      '/=': BinaryOperationEnum.DIV,
+    }[token]
+
+  @v_args(inline=True)
+  def OP_POSTFIX(self, token):
+    if token=='++':
+      return BinaryOperationEnum.ADD
+
+    return BinaryOperationEnum.SUB
+
+  # ---------------- COMPARISONS ----------------
+
+  @v_args(inline=True)
+  def gt(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.GT, right)
+
+  @v_args(inline=True)
+  def lt(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.LT, right)
+
+  @v_args(inline=True)
+  def ge(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.GE, right)
+
+  @v_args(inline=True)
+  def le(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.LE, right)
+
+  @v_args(inline=True)
+  def eq(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.EQ, right)
+
+  @v_args(inline=True)
+  def ne(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.NE, right)
+
+  # ---------------- LOGICAL ----------------
+
+  @v_args(inline=True)
+  def and_op(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.AND, right)
+
+  @v_args(inline=True)
+  def or_op(self, left, right):
+    return BinaryOperation(left, BinaryOperationEnum.OR, right)
+
+  @v_args(inline=True)
+  def not_op(self, value):
+    return UnaryOperation(UnaryOperationEnum.NOT, value)
+
+  # ---------------- FUNCTION ----------------
 
   @v_args(inline=True)
   def func_declaration(self,func_name,parameters,return_type,block):
@@ -196,81 +279,3 @@ class ASTBuilder(Transformer):
       return_type=return_type,
       body=body
     )
-
-  # ---------------- MATH ----------------
-
-  @v_args(inline=True)
-  def add(self, left, right):
-    return BinaryOp(left, BinOp.ADD, right)
-
-  @v_args(inline=True)
-  def sub(self, left, right):
-    return BinaryOp(left, BinOp.SUB, right)
-
-  @v_args(inline=True)
-  def mul(self, left, right):
-    return BinaryOp(left, BinOp.MUL, right)
-
-  @v_args(inline=True)
-  def div(self, left, right):
-    return BinaryOp(left, BinOp.DIV, right)
-
-  @v_args(inline=True)
-  def neg(self, value):
-      return UnaryOp(UnOp.NEG, value)
-
-  @v_args(inline=True)
-  def OP_ASSIGN(self, token):
-    return {
-      '+=': BinOp.ADD,
-      '-=': BinOp.SUB,
-      '*=': BinOp.MUL,
-      '/=': BinOp.DIV,
-    }[token]
-
-  @v_args(inline=True)
-  def OP_POSTFIX(self, token):
-    if token=='++':
-      return BinOp.ADD
-
-    return BinOp.SUB
-
-  # ---------------- COMPARISONS ----------------
-
-  @v_args(inline=True)
-  def gt(self, left, right):
-    return BinaryOp(left, BinOp.GT, right)
-
-  @v_args(inline=True)
-  def lt(self, left, right):
-    return BinaryOp(left, BinOp.LT, right)
-
-  @v_args(inline=True)
-  def ge(self, left, right):
-    return BinaryOp(left, BinOp.GE, right)
-
-  @v_args(inline=True)
-  def le(self, left, right):
-    return BinaryOp(left, BinOp.LE, right)
-
-  @v_args(inline=True)
-  def eq(self, left, right):
-    return BinaryOp(left, BinOp.EQ, right)
-
-  @v_args(inline=True)
-  def ne(self, left, right):
-    return BinaryOp(left, BinOp.NE, right)
-
-  # ---------------- LOGICAL ----------------
-
-  @v_args(inline=True)
-  def and_op(self, left, right):
-    return BinaryOp(left, BinOp.AND, right)
-
-  @v_args(inline=True)
-  def or_op(self, left, right):
-    return BinaryOp(left, BinOp.OR, right)
-
-  @v_args(inline=True)
-  def not_op(self, value):
-    return UnaryOp(UnOp.NOT, value)

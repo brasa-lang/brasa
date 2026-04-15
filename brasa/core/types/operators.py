@@ -1,6 +1,6 @@
 from enum import Enum, auto
 
-class BinOp(Enum):
+class BinaryOperationEnum(Enum):
   ADD = auto()
   SUB = auto()
   MUL = auto()
@@ -16,6 +16,6 @@ class BinOp(Enum):
   AND = auto()
   OR = auto()
 
-class UnOp(Enum):
+class UnaryOperationEnum(Enum):
   NEG = auto()
   NOT = auto()

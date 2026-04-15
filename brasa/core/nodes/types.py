@@ -31,5 +31,5 @@ class VoidType(Type):
 
 @dataclass
 class FunctionType(Type):
-  param_types:any
-  return_type:any
+  param_types:list[Type]
+  return_type:Type

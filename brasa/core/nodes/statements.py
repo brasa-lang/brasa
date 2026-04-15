@@ -1,30 +1,24 @@
 from dataclasses import dataclass
 
 from brasa.core.nodes.types import Type
-from brasa.core.nodes.literals import Literal
+from brasa.core.nodes.values import Value
+
+# ---------------- VARIABLES ----------------
 
 @dataclass
-class Program:
-  statements:list[any]
-
-@dataclass
-class Identifier:
-  name:str
-
-@dataclass
-class VarDeclarationStatement:
+class VariableDeclarationStatement:
   id:str
   type:Type
-  expr:Literal
+  expr:Value
   is_const:bool
 
 @dataclass
-class AssignStatement:
+class AssignmentStatement:
   id:str
-  expr:Literal
+  expr:Value
 
 @dataclass
-class CompoundAssignStatement:
+class CompoundAssignmentStatement:
   id:any
   op:any
   expr:any
@@ -34,19 +28,13 @@ class PostfixStatement:
   id:str
   op:any
 
-@dataclass
-class PrintStatement:
-  expr:Literal
+# ---------------- CONTROL FLOW ----------------
 
 @dataclass
 class IfStatement:
   condition:any
   then_block:any
   else_branch:any
-
-@dataclass
-class Block:
-  statements:any
 
 @dataclass
 class WhileStatement:
@@ -61,9 +49,17 @@ class BreakStatement:
 class ContinueStatement:
   pass
 
+# ---------------- FUNCTIONS ----------------
+
 @dataclass
 class FunctionDeclaration:
   name:str
+  params:any
+  return_type:any
+  body:any
+
+@dataclass
+class LambdaExpression:
   params:any
   return_type:any
   body:any
@@ -77,8 +73,8 @@ class CallExpression:
 class ReturnStatement:
   expr:any
 
+# ---------------- REMOVE LATER ----------------
+
 @dataclass
-class LambdaExpression:
-  params:any
-  return_type:any
-  body:any
+class PrintStatement:
+  expr:Value
