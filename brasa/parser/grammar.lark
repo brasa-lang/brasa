@@ -1,3 +1,5 @@
+# ---------------- PROGRAM ----------------
+
 ?start: program
 program: statement*
 
@@ -21,6 +23,14 @@ statement: var_declaration
 block: "{" statement* "}"   -> block
 ?body: block
      | statement
+
+# ---------------- TOKENS ----------------
+
+CONST: "const"
+ID: /[a-zA-Z_][a-zA-Z0-9_]*/
+INTEGER: /\d+/
+FLOAT: /\d+\.\d+/
+STRING: /"[^"]*"/
 
 # ---------------- VARIABLES ----------------
 
@@ -53,6 +63,7 @@ print_variable: expr ";"
 base_type: "int"                      -> int_type
          | "real"                     -> float_type
          | "logico"                   -> bool_type
+         | "texto"                    -> string_type
          | "vazio"                    -> void_type
          | func_type                  -> func_type
 
@@ -75,16 +86,10 @@ array_literal: "[" [expr ("," expr)*] "]"   -> array_literal
 
 ?literal: FLOAT          -> float_literal
         | INTEGER        -> integer_literal
+        | STRING         -> string_literal
         | "nulo"         -> null_literal
         | "verdadeiro"   -> true_literal
         | "falso"        -> false_literal
-
-# ---------------- TOKENS ----------------
-
-CONST: "const"
-ID: /[a-zA-Z_][a-zA-Z0-9_]*/
-INTEGER: /\d+/
-FLOAT: /\d+\.\d+/
 
 # ---------------- OPERATORS ----------------
 

@@ -89,6 +89,9 @@ class ASTBuilder(Transformer):
   def nullable_type(self,type_):
     return NullableType(base_type=type_)
 
+  def string_type(self,_):
+    return StringType()
+
   def bool_type(self, _):
     return BooleanType()
 
@@ -111,6 +114,10 @@ class ASTBuilder(Transformer):
   @v_args(inline=True)
   def float_literal(self,value):
     return FloatValue(value=float(value))
+
+  @v_args(inline=True)
+  def string_literal(self, token):
+    return StringLiteral(value=token[1:-1])
 
   def null_literal(self,_):
     return NullValue()

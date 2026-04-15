@@ -13,6 +13,10 @@ class FloatType(Type):
   pass
 
 @dataclass
+class StringType:
+  pass
+
+@dataclass
 class NullableType(Type):
   base_type:Type
 

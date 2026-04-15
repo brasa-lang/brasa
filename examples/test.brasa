@@ -1,5 +1,3 @@
-func f()->int{
-  retorne 0;
-}
+texto nome := "Elleanor";
 
-f();
+nome;

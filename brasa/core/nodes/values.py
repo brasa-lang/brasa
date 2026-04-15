@@ -13,6 +13,10 @@ class FloatValue(Value):
   value:float
 
 @dataclass
+class StringLiteral:
+  value:str
+
+@dataclass
 class NullValue(Value):
   pass
 

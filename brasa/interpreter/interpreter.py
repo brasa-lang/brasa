@@ -98,6 +98,9 @@ class Interpreter:
   def visit_FloatValue(self, node):
     return node.value
 
+  def visit_StringLiteral(self, node):
+    return node.value
+
   def visit_NullValue(self, node):
     return None
 
