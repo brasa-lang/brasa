@@ -57,62 +57,92 @@ class Interpreter:
     self.current_scope.declare(node.id.name,var_id)
 
   def visit_AssignmentStatement(self,node):
-    var_id = self.current_scope.lookup(node.id.name)
+    # var_id = self.current_scope.lookup(node.id.name)
 
-    if self.world.is_const(var_id):
-      raise Exception(f"Cannot assign to const '{node.id.name}'")
+    # if self.world.is_const(var_id):
+    #   raise Exception(f"Cannot assign to const '{node.id.name}'")
 
+    # value = self.visit(node.expr)
+    # self.world.set_value(var_id, value)
     value = self.visit(node.expr)
-    self.world.set_value(var_id, value)
+    node.target.set(self, value)
 
   def visit_CompoundAssignmentStatement(self, node):
-    var_id = self.current_scope.lookup(node.id.name)
-    current=self.world.get_value(var_id)
+  #   var_id = self.current_scope.lookup(node.id.name)
+  #   current=self.world.get_value(var_id)
+  #   value = self.visit(node.expr)
+
+  #   if node.op == BinaryOperationEnum.ADD:
+  #     result = current + value
+  #   elif node.op == BinaryOperationEnum.SUB:
+  #     result = current - value
+  #   elif node.op == BinaryOperationEnum.MUL:
+  #     result = current * value
+  #   elif node.op == BinaryOperationEnum.DIV:
+  #     result = current / value
+
+  #   self.world.set_value(var_id,result)
+    current = node.target.get(self)
     value = self.visit(node.expr)
 
-    if node.op == BinaryOperationEnum.ADD:
-      result = current + value
-    elif node.op == BinaryOperationEnum.SUB:
-      result = current - value
-    elif node.op == BinaryOperationEnum.MUL:
-      result = current * value
-    elif node.op == BinaryOperationEnum.DIV:
-      result = current / value
+    if node.op==BinaryOperationEnum.ADD:
+        result=current+value
+    elif node.op==BinaryOperationEnum.SUB:
+        result=current-value
+    elif node.op==BinaryOperationEnum.MUL:
+        result= current*value
+    elif node.op==BinaryOperationEnum.DIV:
+        result=current/value
 
-    self.world.set_value(var_id,result)
+    node.target.set(self,result)
 
-  def visit_PostfixStatement(self, node):
-    var_id = self.current_scope.lookup(node.id.name)
-    current=self.world.get_value(var_id)
+  def visit_PostfixStatement(self,node):
+    # var_id = self.current_scope.lookup(node.id.name)
+    # current=self.world.get_value(var_id)
+
+    # if node.op==BinaryOperationEnum.ADD:
+    #   self.world.set_value(var_id,current+1)
+    # else:
+    #   self.world.set_value(var_id,current-1)
+    current=node.target.get(self)
 
     if node.op==BinaryOperationEnum.ADD:
-      self.world.set_value(var_id,current+1)
+      new_value=current+1
     else:
-      self.world.set_value(var_id,current-1)
+      new_value=current-1
+
+    node.target.set(self,new_value)
+
+    return current
 
   # ---------------- VALUES ----------------
 
-  def visit_IntegerValue(self, node):
+  def visit_IntegerValue(self,node):
     return node.value
 
-  def visit_FloatValue(self, node):
+  def visit_FloatValue(self,node):
     return node.value
 
-  def visit_StringLiteral(self, node):
+  def visit_StringLiteral(self,node):
     return node.value
 
-  def visit_NullValue(self, node):
+  def visit_NullValue(self,node):
     return None
 
-  def visit_BooleanValue(self, node):
+  def visit_BooleanValue(self,node):
     return node.value
 
-  def visit_ArrayValue(self, node):
+  def visit_ArrayValue(self,node):
     return [self.visit(elem) for elem in node.elements]
+
+  def visit_IndexExpression(self, node):
+    arr = self.visit(node.base)
+    index = self.visit(node.index)
+    return arr[index]
 
   # ---------------- OPERATORS ----------------
 
-  def visit_BinaryOp(self, node):
+  def visit_BinaryOperation(self, node):
     op = node.op
 
     if op == BinaryOperationEnum.AND:
@@ -160,7 +190,7 @@ class Interpreter:
 
     raise Exception(f"Unknown operator: {op}")
 
-  def visit_UnaryOp(self, node):
+  def visit_UnaryOperation(self, node):
     value = self.visit(node.expr)
 
     if node.op == UnaryOperationEnum.NEG:

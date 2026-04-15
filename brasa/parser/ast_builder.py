@@ -4,6 +4,7 @@ from brasa.core.nodes.basics import *
 from brasa.core.nodes.statements import *
 from brasa.core.nodes.types import *
 from brasa.core.nodes.values import *
+from brasa.core.types.lvalues import *
 
 from brasa.core.nodes.operators import BinaryOperation,UnaryOperation
 from brasa.core.types.operators import BinaryOperationEnum,UnaryOperationEnum
@@ -47,14 +48,14 @@ class ASTBuilder(Transformer):
   @v_args(inline=True)
   def assigment(self,id,expr):
     return AssignmentStatement(
-      id=id,
+      target=id,
       expr=expr
     )
 
   @v_args(inline=True)
   def compound_assignment(self,id,op,expr):
     return CompoundAssignmentStatement(
-      id=id,
+      target=id,
       op=op,
       expr=expr
     )
@@ -62,7 +63,7 @@ class ASTBuilder(Transformer):
   @v_args(inline=True)
   def postfix(self,id,op):
     return PostfixStatement(
-      id=id,
+      target=id,
       op=op
     )
 
@@ -70,12 +71,13 @@ class ASTBuilder(Transformer):
     return token.value
 
   @v_args(inline=True)
-  def postfix(self, id, op):
-    return PostfixStatement(id, op)
+  def var_lvalue(self, id_):
+    return VarLValue(id_.name)
+
 
   @v_args(inline=True)
-  def print_variable(self,expr):
-    return PrintStatement(expr)
+  def index_lvalue(self, base, index):
+    return IndexLValue(base, index)
 
   # ---------------- TYPES ----------------
 
@@ -134,6 +136,10 @@ class ASTBuilder(Transformer):
       elements=[]
 
     return ArrayValue(elements=elements)
+
+  @v_args(inline=True)
+  def index_expr(self, base, index):
+    return IndexExpression(base, index)
 
   # ---------------- CONTROL FLOW ----------------
 
@@ -286,3 +292,9 @@ class ASTBuilder(Transformer):
       return_type=return_type,
       body=body
     )
+
+  # ---------------- REMOVE LATER ----------------
+
+  @v_args(inline=True)
+  def print_variable(self,expr):
+    return PrintStatement(expr)

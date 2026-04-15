@@ -48,8 +48,8 @@ postfix: lvalue OP_POSTFIX ";"   -> postfix
 OP_POSTFIX: "++"
           | "--"
 
-?lvalue: ID
-      | expr "[" expr "]"
+?lvalue: ID                      -> var_lvalue
+      | lvalue "[" expr "]"      -> index_lvalue
 
 # REMOVE LATER
 print_variable: expr ";"
@@ -123,6 +123,8 @@ array_literal: "[" [expr ("," expr)*] "]"   -> array_literal
 
 ?atom: literal
      | ID
+     | call_func
+     | atom "[" expr "]"   -> index_expr
      | "(" expr ")"
 
 # ---------------- IF/ELSE ----------------

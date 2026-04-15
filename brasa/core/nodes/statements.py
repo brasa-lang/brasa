@@ -14,19 +14,24 @@ class VariableDeclarationStatement:
 
 @dataclass
 class AssignmentStatement:
-  id:str
+  target:str
   expr:Value
 
 @dataclass
 class CompoundAssignmentStatement:
-  id:any
+  target:any
   op:any
   expr:any
 
 @dataclass
 class PostfixStatement:
-  id:str
+  target:any
   op:any
+
+@dataclass
+class IndexExpression:
+  base:any
+  index:any
 
 # ---------------- CONTROL FLOW ----------------
 
