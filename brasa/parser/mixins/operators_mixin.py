@@ -4,7 +4,7 @@ from brasa.core.nodes.operators import BinaryOperation,UnaryOperation
 from brasa.core.types.operators import BinaryOperationEnum,UnaryOperationEnum
 from brasa.core.nodes.variables import PostfixStatement
 
-class OperatorsBuilder:
+class OperatorsMixin:
   @v_args(inline=True)
   def OP_ASSIGN(self,token):
     return {

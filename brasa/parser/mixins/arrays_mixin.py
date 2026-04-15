@@ -2,7 +2,7 @@ from lark import v_args
 
 from brasa.core.nodes.arrays import ArrayType,ArrayValue,IndexExpression
 
-class ArrayBuilder:
+class ArrayMixin:
   @v_args(inline=True)
   def array_type(self,element_type,size):
     return ArrayType(

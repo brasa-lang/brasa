@@ -2,7 +2,7 @@ from lark import v_args
 
 from brasa.core.nodes.flow import IfStatement,WhileStatement,BreakStatement,ContinueStatement
 
-class FlowBuilder:
+class FlowMixin:
   @v_args(inline=True)
   def if_statement(
     self,

@@ -2,7 +2,7 @@ from lark import v_args
 
 from brasa.core.nodes.primitive_values import IntegerValue,FloatValue,StringValue,BooleanValue,NullValue
 
-class PrimitiveValuesBuilder:
+class PrimitiveValuesMixin:
   @v_args(inline=True)
   def integer_value(self,value): return IntegerValue(int(value))
 

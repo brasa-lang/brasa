@@ -7,7 +7,7 @@ from brasa.core.types.lvalues import VarLValue,IndexLValue
 
 from brasa.core.nodes.variables import VariableDeclarationStatement,AssignmentStatement,CompoundAssignmentStatement
 
-class VariablesBuilder:
+class VariablesMixin:
   @v_args(inline=True)
   def variable_lvalue(self,target):
     return VarLValue(name=target.name)

@@ -2,7 +2,7 @@ from lark import v_args
 
 from brasa.core.nodes.basics import Program,Block,PrintStatement
 
-class BasicsBuilder:
+class BasicsMixin:
   def program(self,statements):
     return Program(statements=statements)
 

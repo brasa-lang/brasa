@@ -1,32 +1,32 @@
 from lark import Transformer
 
-from brasa.parser.builders.basics_builder import BasicsBuilder
+from brasa.parser.mixins.basics_mixin import BasicsMixin
 
-from brasa.parser.builders.variables_builder import VariablesBuilder
-from brasa.parser.builders.primitive_types_builder import PrimitiveTypesBuilder
-from brasa.parser.builders.primitive_values_builder import PrimitiveValuesBuilder
+from brasa.parser.mixins.variables_mixin import VariablesMixin
+from brasa.parser.mixins.primitive_types_mixin import PrimitiveTypesMixin
+from brasa.parser.mixins.primitive_values_mixin import PrimitiveValuesMixin
 
-from brasa.parser.builders.operators_builder import OperatorsBuilder
+from brasa.parser.mixins.operators_mixin import OperatorsMixin
 
-from brasa.parser.builders.flow_builder import FlowBuilder
+from brasa.parser.mixins.flow_mixin import FlowMixin
 
-from brasa.parser.builders.arrays_builder import ArrayBuilder
-from brasa.parser.builders.functions_builder import FunctionsBuilder
+from brasa.parser.mixins.arrays_mixin import ArrayMixin
+from brasa.parser.mixins.functions_mixin import FunctionsMixin
 
 class ASTBuilder(
   Transformer,
 
-  BasicsBuilder,
+  BasicsMixin,
 
-  VariablesBuilder,
-  PrimitiveTypesBuilder,
-  PrimitiveValuesBuilder,
+  VariablesMixin,
+  PrimitiveTypesMixin,
+  PrimitiveValuesMixin,
 
-  OperatorsBuilder,
+  OperatorsMixin,
 
-  FlowBuilder,
+  FlowMixin,
 
-  ArrayBuilder,
-  FunctionsBuilder,
+  ArrayMixin,
+  FunctionsMixin,
 ):
   pass

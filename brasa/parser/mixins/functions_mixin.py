@@ -2,7 +2,7 @@ from lark import v_args
 
 from brasa.core.nodes.functions import FunctionType,FunctionDeclarationStatement,VoidType,CallExpression,ReturnStatement,LambdaExpression
 
-class FunctionsBuilder:
+class FunctionsMixin:
   @v_args(inline=True)
   def function_declaration(
     self,

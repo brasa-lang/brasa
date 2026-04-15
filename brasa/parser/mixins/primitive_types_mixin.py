@@ -2,7 +2,7 @@ from lark import v_args
 
 from brasa.core.nodes.primitive_types import IntegerType,FloatType,BooleanType,StringType,NullableType
 
-class PrimitiveTypesBuilder:
+class PrimitiveTypesMixin:
   def int_type(self,_): return IntegerType()
   def float_type(self,_): return FloatType()
   def bool_type(self, _): return BooleanType()

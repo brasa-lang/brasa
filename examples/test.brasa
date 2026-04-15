@@ -5,3 +5,7 @@ func get_name(int x)->texto{
 
 get_name(-43);
 get_name(127);
+
+int? x := 5;
+
+x;
