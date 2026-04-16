@@ -1,11 +1,3 @@
-diga("Digite seu nome: ");
-texto name := leia();
+texto nome := 'Elleanor';
 
-func welcome(texto name)->texto{
-  texto welcome_message := "Welcome, " + name + "!";
-
-  retorne welcome_message;
-}
-
-texto result := welcome(name);
-diga(result);
+diga(nome);
