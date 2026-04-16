@@ -1,16 +1,11 @@
+import click
+from importlib import metadata
+
 from brasa.runner import Interpreter
 from brasa.runner import run_code
 
-import readline
-
-readline.read_history_file('.brasa_history')
-readline.write_history_file('.brasa_history')
-
 def repl():
-  interpreter=Interpreter()
-  buffer=''
-
-  print(r'''
+  ascii_art=r'''
 ==========================================================
  _______    _______        __        ________     __      
 |   _  "\  /"      \      /""\      /"       )   /""\     
@@ -21,16 +16,39 @@ def repl():
 (_______/ |__|  \___)(___/    \___)(_______/(___/    \___)
 
 ==========================================================
+  '''
 
-Type "exit" or "quit" to leave Brasa Interactive Environment
-  ''')
+  click.secho(ascii_art,fg='yellow')
+
+  __version__=metadata.version('brasa-lang')
+  click.secho(f'Brasa, version {__version__}',fg='green')
+
+  click.secho('Hi! This is Brasa Interactive Environment.',fg='green')
+  click.secho('Type "exit" or "quit" or hit Ctrl+D to leave',fg='green')
+
+  print()
+
+  interpreter=Interpreter()
+  buffer=''
 
   while True:
     try:
-      prompt='>>> ' if not buffer else '... '
+      if not buffer:
+        prompt=click.style(
+          '>>> ',
+          fg='green',
+          bold=True
+        )
+      else:
+        prompt=click.style(
+          '... ',
+          fg='green',
+        )
+
       line=input(prompt)
 
       if line.strip() in {'exit','quit'}:
+        bye_message()
         break
 
       buffer+=line+'\n'
@@ -45,8 +63,22 @@ Type "exit" or "quit" to leave Brasa Interactive Environment
 
         if result is not None:
           print(result)
-      except Exception:
-        continue
+          print()
+          buffer=''
+      except Exception as e:
+        pass
+        # click.secho(f'Error: {e}',fg='red',bold=True)
+        # buffer=''
+    except EOFError:
+      bye_message()
+      break
     except KeyboardInterrupt:
-      print('\nKeyboardInterrupt')
+      click.secho('\nKeyboardInterrupt',fg='blue')
+      print()
       buffer=''
+
+def bye_message():
+  print()
+  click.secho('Exiting...',fg='blue')
+  click.secho('It was nice talking to you (ꈍᴗꈍ)♡',fg='blue')
+  print()
