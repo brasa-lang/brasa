@@ -1,6 +1,7 @@
 from brasa.core.types.operators import BinaryOperationEnum,UnaryOperationEnum
 
-from brasa.core.utils.operations import add,sub,mul,div,remainder,greater_than,less_than,less_than_or_equal_to,greater_than_or_equal_to,equal,not_equal,and_,or_,negative,not_
+from brasa.core.utils.operators.binary import add,sub,mul,div,remainder,greater_than,less_than,less_than_or_equal_to,greater_than_or_equal_to,equal,not_equal,and_,or_
+from brasa.core.utils.operators.unary import not_,negative
 
 class OperatorsMixin:
   def visit_BinaryOperation(self,node):

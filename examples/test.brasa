@@ -6,4 +6,10 @@ int[3] numbers := [1,2,3];
 
 numbers[1] := 10;
 
-u.diga(numbers[1]);
+u.diga_nl(numbers[1]);
+
+importe utils como uuu;
+
+u.diga_nl(uuu.mmm);
+
+u.diga(-verdadeiro);

@@ -1,6 +1,5 @@
 import click
 from importlib import metadata
-import sys
 
 from brasa.runner import run_file
 from brasa.repl import repl
@@ -31,6 +30,9 @@ def main(filename,root):
   """
 
   if filename is not None:
+    print(root)
+    print(root)
+    print(root)
     run_file(filename,root=root)
   else:
     repl()

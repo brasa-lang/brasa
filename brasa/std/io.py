@@ -1,4 +1,4 @@
-from brasa.core.utils.conversions import to_python
+from brasa.core.utils.print import to_python
 
 from brasa.core.nodes.primitive_values import StringValue
 

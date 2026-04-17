@@ -18,6 +18,7 @@ class ModulesMixin:
   def execute_module(self, path_parts):
     module_name='.'.join(path_parts)
     file_path=Path(self.base_path).joinpath(*path_parts).with_suffix('.brasa')
+    print(module_name,file_path)
 
     if file_path.exists():
       code=file_path.read_text(encoding='utf-8')
