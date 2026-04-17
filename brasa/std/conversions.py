@@ -5,11 +5,11 @@ def to_int(value):
 
   # already int
   if isinstance(value, IntegerValue):
-      return value
+    return value
 
   # real → int
   if isinstance(value, FloatValue):
-      return IntegerValue(int(value.value))
+    return IntegerValue(int(value.value))
 
   # string → int
   if isinstance(value, StringValue):

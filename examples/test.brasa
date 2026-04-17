@@ -3,4 +3,11 @@ importe std.conversions como c;
 importe utils como uuu;
 
 int age := c.to_int("44");
-u.diga(age);
+u.diga(age*2);
+
+texto first_name := "Elleanor";
+texto second_name := "Rose";
+
+texto full_name := first_name + " " + second_name;
+
+u.diga(full_name);

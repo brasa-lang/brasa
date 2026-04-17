@@ -2,6 +2,8 @@ from brasa.core.types.operators import BinaryOperationEnum,UnaryOperationEnum
 
 from brasa.core.nodes.primitive_values import IntegerValue,FloatValue,StringValue,NullValue,BooleanValue
 
+from brasa.core.utils.operations import add,sub,mul,div,greater_than,less_than,equal,not_equal,and_,or_,negative,not_
+
 class OperatorsMixin:
   def visit_BinaryOperation(self,node):
     op = node.op
@@ -12,51 +14,38 @@ class OperatorsMixin:
     # -------- ARITHMETIC --------
 
     if op == BinaryOperationEnum.ADDITION:
-      if isinstance(left, IntegerValue) and isinstance(right, IntegerValue):
-        return IntegerValue(left.value + right.value)
-
-      if isinstance(left, FloatValue) or isinstance(right, FloatValue):
-        return FloatValue(float(left.value) + float(right.value))
-
-      if isinstance(left, StringValue) or isinstance(right, StringValue):
-        return StringValue(str(left.value) + str(right.value))
-
-      raise Exception("Invalid types for +")
+      return add(left,right)
 
     if op == BinaryOperationEnum.SUBTRACTION:
-      return FloatValue(left.value - right.value)
+      return sub(left,right)
 
     if op == BinaryOperationEnum.MULTIPLICATION:
-      return FloatValue(left.value * right.value)
+      return mul(left,right)
 
     if op == BinaryOperationEnum.DIVISION:
-      return FloatValue(left.value / right.value)
+      return div(left,right)
 
     # -------- COMPARISON --------
 
     if op == BinaryOperationEnum.GREATER_THAN:
-      return BooleanValue(left.value > right.value)
+      return greater_than(left,right)
 
     if op == BinaryOperationEnum.LESS_THAN:
-      return BooleanValue(left.value < right.value)
+      return less_than(left,right)
 
     if op == BinaryOperationEnum.EQUAL:
-      return BooleanValue(left.value == right.value)
+      return equal(left,right)
 
     if op == BinaryOperationEnum.NOT_EQUAL:
-      return BooleanValue(left.value != right.value)
+      return not_equal(left,right)
 
     # -------- LOGIC --------
 
     if op == BinaryOperationEnum.AND:
-      if not left.value:
-        return BooleanValue(False)
-      return BooleanValue(bool(right.value))
+      return and_(left,right)
 
     if op == BinaryOperationEnum.OR:
-      if left.value:
-        return BooleanValue(True)
-      return BooleanValue(bool(right.value))
+      return or_(left,right)
 
     raise Exception(f'Unknown binary operator: {op}')
 
@@ -64,9 +53,9 @@ class OperatorsMixin:
     value = self.visit(node.expr)
 
     if node.op == UnaryOperationEnum.NEGATIVE:
-      return FloatValue(-value.value)
+      return negative(value)
 
     if node.op == UnaryOperationEnum.NOT:
-      return BooleanValue(not value.value)
+      return not_(value)
 
     raise Exception(f'Unknown unary operator: {node.op}')
