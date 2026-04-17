@@ -12,6 +12,7 @@ def to_int(value):
     return IntegerValue(int(value.value))
 
   # string → int
+  print(value)
   if isinstance(value, StringValue):
       try:
           return IntegerValue(int(value.value))
