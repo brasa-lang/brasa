@@ -10,11 +10,9 @@ statement: variable_declaration
          | continue_statement
          | return_statement
          | block
-         //| postfix
          | postfix_statement
          | function_declaration
          | expr ";"
-         //| call_function ";"
          | import_statement
          | export_statement
 
@@ -76,15 +74,6 @@ nullable_type: type "?"                     -> nullable_type
         | postfix "(" [args_list] ")"     -> call
         | postfix "[" expr "]"            -> index_expr
 
-//?expr: literal | array_literal
-     //| ID
-     //| or_expr
-     //| lambda_expr
-     //| call_function
-     //| member
-
-//member: expr "." ID
-
 array_literal: "[" [expr ("," expr)*] "]"   -> array_value
 
 ?literal: FLOAT                             -> float_value
@@ -141,7 +130,6 @@ continue_statement: "continue" ";"
 # ---------------- FUNCTIONS ----------------
 
 function_declaration: "func" ID "(" [param_list] ")" ["->" type] block
-//call_function: ID "(" [args_list] ")"
 
 args_list: expr ("," expr)*
 

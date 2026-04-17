@@ -18,7 +18,6 @@ class VariablesMixin:
     base,
     index
   ):
-    print(base,index)
     return IndexLValue(
       base=base,
       index=index

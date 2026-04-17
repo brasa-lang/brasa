@@ -3,7 +3,6 @@ from brasa.core.runtime.scope import Scope
 class BasicsMixin:
   def visit_Program(self,node):
     for statement in node.statements:
-      # print('fuck: ',statement)
       self.visit(statement)
 
   def visit_Block(self,node):

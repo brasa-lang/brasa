@@ -44,19 +44,12 @@ class ModulesMixin:
   ):
     return items
 
-  # @v_args(inline=True)
-  # def member(
-  #   self,
-  #   obj,
-  #   name
-  # ):
-  #   return Member(
-  #     obj=obj,
-  #     name=name
-  #   )
-
   @v_args(inline=True)
-  def member(self, obj, name):
+  def member(
+    self,
+    obj,
+    name
+  ):
     return Member(
       obj=obj,
       name=name

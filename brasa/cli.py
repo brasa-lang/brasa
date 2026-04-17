@@ -32,13 +32,6 @@ def main(filename,root):
 
   if filename is not None:
     run_file(filename,root=root)
-    # try: run_file(
-    #   filename,
-    #   root=root
-    # )
-    # except Exception as e:
-    #   click.secho(e,fg='red')
-    #   sys.exit(1)
   else:
     repl()
 
