@@ -46,4 +46,4 @@ class IndexLValue(LValue):
     arr=self.base.get(interpreter)
     index=interpreter.visit(self.index)
 
-    arr[index]=value
+    arr[index.value]=value

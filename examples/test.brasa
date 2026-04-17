@@ -2,11 +2,8 @@ importe std.io como u;
 importe std.conversions como c;
 importe std.texto como s;
 
-int age := c.int(u.leia());
+int[3] numbers := [1,2,3];
 
-u.diga_nl(age);
-u.diga(age >= 0);
+numbers[1] := 10;
 
-texto name := "Ellea\\\'\"\tnor";
-
-u.diga(s.maiusculo(name));
+u.diga(numbers[1]);
