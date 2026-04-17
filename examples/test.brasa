@@ -1,7 +1,6 @@
 importe std.io como u;
+importe std.conversions como c;
 importe utils como uuu;
 
-u.diga('hi','fuck');
-
-texto name := u.leia();
-u.diga(name);
+int age := c.to_int("44");
+u.diga(age);

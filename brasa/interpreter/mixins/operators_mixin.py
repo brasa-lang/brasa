@@ -1,61 +1,72 @@
 from brasa.core.types.operators import BinaryOperationEnum,UnaryOperationEnum
 
+from brasa.core.nodes.primitive_values import IntegerValue,FloatValue,StringValue,NullValue,BooleanValue
+
 class OperatorsMixin:
   def visit_BinaryOperation(self,node):
-    op=node.op
+    op = node.op
 
-    if op==BinaryOperationEnum.AND:
-      left=self.visit(node.left)
+    left = self.visit(node.left)
+    right = self.visit(node.right)
 
-      if not left:
-        return False
+    # -------- ARITHMETIC --------
 
-      right=self.visit(node.right)
-      return bool(right)
+    if op == BinaryOperationEnum.ADDITION:
+      if isinstance(left, IntegerValue) and isinstance(right, IntegerValue):
+        return IntegerValue(left.value + right.value)
 
-    if node.op==BinaryOperationEnum.OR:
-      left=self.visit(node.left)
+      if isinstance(left, FloatValue) or isinstance(right, FloatValue):
+        return FloatValue(float(left.value) + float(right.value))
 
-      if left:
-        return True
+      if isinstance(left, StringValue) or isinstance(right, StringValue):
+        return StringValue(str(left.value) + str(right.value))
 
-      right=self.visit(node.right)
-      return bool(right)
+      raise Exception("Invalid types for +")
 
-    left=self.visit(node.left)
-    right=self.visit(node.right)
+    if op == BinaryOperationEnum.SUBTRACTION:
+      return FloatValue(left.value - right.value)
 
-    if op==BinaryOperationEnum.ADDITION:
-      return left+right
-    if op==BinaryOperationEnum.SUBTRACTION:
-      return left-right
-    if op==BinaryOperationEnum.MULTIPLICATION:
-      return left*right
-    if op==BinaryOperationEnum.DIVISION:
-      return left/right
+    if op == BinaryOperationEnum.MULTIPLICATION:
+      return FloatValue(left.value * right.value)
 
-    if op==BinaryOperationEnum.GREATER_THAN:
-      return left>right
-    if op==BinaryOperationEnum.LESS_THAN:
-      return left<right
-    if op==BinaryOperationEnum.GREATER_THAN_OR_EQUAL_TO:
-      return left>=right
-    if op==BinaryOperationEnum.LESS_THAN_OR_EQUAL_TO:
-      return left<=right
-    if op==BinaryOperationEnum.EQUAL:
-      return left==right
-    if op==BinaryOperationEnum.NOT_EQUAL:
-      return left!=right
+    if op == BinaryOperationEnum.DIVISION:
+      return FloatValue(left.value / right.value)
+
+    # -------- COMPARISON --------
+
+    if op == BinaryOperationEnum.GREATER_THAN:
+      return BooleanValue(left.value > right.value)
+
+    if op == BinaryOperationEnum.LESS_THAN:
+      return BooleanValue(left.value < right.value)
+
+    if op == BinaryOperationEnum.EQUAL:
+      return BooleanValue(left.value == right.value)
+
+    if op == BinaryOperationEnum.NOT_EQUAL:
+      return BooleanValue(left.value != right.value)
+
+    # -------- LOGIC --------
+
+    if op == BinaryOperationEnum.AND:
+      if not left.value:
+        return BooleanValue(False)
+      return BooleanValue(bool(right.value))
+
+    if op == BinaryOperationEnum.OR:
+      if left.value:
+        return BooleanValue(True)
+      return BooleanValue(bool(right.value))
 
     raise Exception(f'Unknown binary operator: {op}')
 
   def visit_UnaryOperation(self,node):
-    value=self.visit(node.expr)
+    value = self.visit(node.expr)
 
-    if node.op==UnaryOperationEnum.NEGATIVE:
-      return -value
+    if node.op == UnaryOperationEnum.NEGATIVE:
+      return FloatValue(-value.value)
 
-    if node.op==UnaryOperationEnum.NOT:
-      return not value
+    if node.op == UnaryOperationEnum.NOT:
+      return BooleanValue(not value.value)
 
     raise Exception(f'Unknown unary operator: {node.op}')

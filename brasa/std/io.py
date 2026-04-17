@@ -1,6 +1,7 @@
-def diga(texto,prefix=''):
-  print(123)
-  print(f'{prefix}{texto}')
+from brasa.core.utils.conversions import to_python
+
+def diga(prompt):
+  print(to_python(prompt))
 
 def leia():
   return input()

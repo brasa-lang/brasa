@@ -82,7 +82,6 @@ class ModulesMixin:
 
   def visit_ImportStatement(self,node):
     module=self.execute_module(node.path)
-    print(module)
     alias=node.alias or node.path[-1]
 
     entity_id=self.world.create(

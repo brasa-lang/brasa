@@ -36,7 +36,6 @@ class FunctionsMixin:
     args=[self.visit(arg) for arg in node.args]
 
     if isinstance(func,BuiltinFunction):
-      print(args)
       return func.func(*args)
 
     new_scope=Scope(parent=func.closure_scope)
@@ -71,25 +70,3 @@ class FunctionsMixin:
       value=self.visit(node.expr)
 
     raise ReturnSignal(value)
-
-  def _builtin_print(self,interpreter,args):
-    for arg in args:
-      print(arg,end='')
-
-  def _builtin_input(self,interpreter,args):
-    return input()
-
-  def _register_builtin_functions(self):
-    self._define_builtin('diga',self._builtin_print)
-    self._define_builtin('leia',self._builtin_input)
-
-  def _define_builtin(self,name,func):
-    builtin=BuiltinFunction(name,func)
-
-    entity_id=self.world.create(
-      type=None,
-      value=builtin,
-      is_const=True
-    )
-
-    self.current_scope.declare(name,entity_id)

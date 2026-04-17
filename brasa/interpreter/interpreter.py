@@ -50,7 +50,6 @@ class Interpreter(
           .parent
     )
 
-    self._register_builtin_functions()
     self._current_exports = None
 
   def visit(self,node):
