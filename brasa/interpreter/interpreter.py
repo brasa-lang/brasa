@@ -43,6 +43,13 @@ class Interpreter(
     else:
       self.base_path = Path.cwd()
 
+    self.std_path = (
+        Path(__file__)
+          .resolve()
+          .parent
+          .parent
+    )
+
     self._register_builtin_functions()
     self._current_exports = None
 

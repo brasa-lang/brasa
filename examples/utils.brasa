@@ -1,8 +1,7 @@
-int x := 666;
+int x := 6666;
 
-func say_hi(int m){
-  retorne 1;
+func welcome()->int{
+
 }
 
-exporte x;
-exporte say_hi;
+exporte x como mmm,welcome;

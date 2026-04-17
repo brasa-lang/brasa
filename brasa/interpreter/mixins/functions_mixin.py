@@ -36,7 +36,8 @@ class FunctionsMixin:
     args=[self.visit(arg) for arg in node.args]
 
     if isinstance(func,BuiltinFunction):
-      return func.func(self,args)
+      print(args)
+      return func.func(*args)
 
     new_scope=Scope(parent=func.closure_scope)
 

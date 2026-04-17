@@ -1,1 +1,7 @@
+importe std.io como u;
+importe utils como uuu;
 
+u.diga('hi','fuck');
+
+texto name := u.leia();
+u.diga(name);
