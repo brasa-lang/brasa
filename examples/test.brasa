@@ -2,7 +2,7 @@ importe std.io como u;
 importe std.conversions como c;
 importe std.texto como s;
 
-int age := c.to_int(u.leia());
+int age := c.int(u.leia());
 
 u.diga_nl(age);
 u.diga(age >= 0);

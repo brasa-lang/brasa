@@ -1,3 +1,5 @@
+from brasa.core.utils.keywords import KEYWORDS
+
 class Scope:
   def __init__(self,parent=None):
     self.parent=parent
@@ -8,6 +10,9 @@ class Scope:
     name,
     entity_id
   ):
+    if name in KEYWORDS:
+      raise Exception(f'"{name}" é uma palavra reservada')
+
     if name in self.symbols:
       raise Exception(f'Error: Variable "{name}" has already been declared in this scope')
 
