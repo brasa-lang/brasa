@@ -46,4 +46,5 @@ class IndexLValue(LValue):
     arr=self.base.get(interpreter)
     index=interpreter.visit(self.index)
 
-    arr[index.value]=value
+    print(f'fff: {arr}')
+    arr.elements[index.value]=value

@@ -38,6 +38,7 @@ OP_ASSIGN: "+="
          | "-="
          | "*="
          | "/="
+         | "%="
 
 postfix_statement: lvalue OP_POSTFIX ";"   -> postfix
 OP_POSTFIX: "++"

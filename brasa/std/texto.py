@@ -1,13 +1,8 @@
-from brasa.core.nodes.primitive_values import StringValue
+from brasa.core.nodes.primitive_values import IntegerValue,StringValue
 
-def tamanho(t:StringValue):
-  return len(t.value)
-
-def maiusculo(t:StringValue):
-  return t.value.upper()
-
-def minusculo(t:StringValue):
-  return t.value.lower()
+def tamanho(t:StringValue): return IntegerValue(len(t.value))
+def maiusculo(t:StringValue): return StringValue(t.value.upper())
+def minusculo(t:StringValue): return StringValue(t.value.lower())
 
 exports={
   'tamanho':tamanho,

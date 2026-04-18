@@ -1,6 +1,6 @@
 from lark import v_args
 
-from brasa.core.nodes.basics import Program,Block,PrintStatement
+from brasa.core.nodes.basics import Program,Block
 
 class BasicsMixin:
   def program(self,statements):
@@ -12,7 +12,3 @@ class BasicsMixin:
 
   def block(self,statements):
     return Block(list(statements))
-
-  @v_args(inline=True)
-  def print_variable(self,expr):
-    return PrintStatement(expr)

@@ -4,20 +4,17 @@ from brasa.core.nodes.arrays import ArrayValue
 from brasa.core.utils.index import index_array,index_string
 
 class ArrayMixins:
-  def visit_ArrayValue(self,node):
-    return [self.visit(elem) for elem in node.elements]
+  def visit_ArrayValue(self,node): return node
 
   def visit_IndexExpression(self,node):
     arr=self.visit(node.base)
     index=self.visit(node.index)
 
-    if not isinstance(index,IntegerValue):
-      raise Exception('Index must be an int')
+    print(f'node: {arr}')
 
-    if isinstance(node.base,ArrayValue):
-        return index_array(node.base,index)
+    if not isinstance(index,IntegerValue): raise Exception('Index must be an int')
 
-    elif isinstance(node.base,StringValue):
-        return index_string(node.base,index)
+    if isinstance(arr,ArrayValue): return index_array(arr,index)
+    elif isinstance(arr,StringValue): return index_string(arr,index)
 
-    return arr[index.value]
+    raise Exception(f'{arr} is not indexable')

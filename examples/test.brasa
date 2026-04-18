@@ -11,5 +11,33 @@ u.diga_nl(numbers[1]);
 importe utils como uuu;
 
 u.diga_nl(uuu.mmm);
+u.diga_nl(uuu.mmm*2);
+u.diga_nl(uuu.mmm*2);
 
-u.diga(-verdadeiro);
+u.diga_nl(-(5+1));
+
+int x := 5;
+x += 20;
+x *= 2;
+
+x++;
+x++;
+x++;
+x--;
+
+u.diga(x);
+
+se(x >= 10){
+  u.diga('Positivo');
+}
+
+func foo(){
+  retorne;
+}
+
+foo();
+
+u.diga("Digite seu nome: ");
+texto name := u.leia();
+
+u.diga_nl(s.maiusculo(name[0])+'hello');

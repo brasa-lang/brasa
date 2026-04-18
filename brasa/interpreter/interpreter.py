@@ -31,26 +31,28 @@ class Interpreter(
 
   ModulesMixin
 ):
-  def __init__(self,entry_file,root,parser):
+  def __init__(
+    self,
+    entry_file,
+    root,
+    parser
+  ):
     self.current_scope=Scope()
     self.world=World()
+    self._current_exports=None
+
     self.parser=parser
 
-    if root:
-      self.base_path = Path(root).resolve()
-    elif entry_file:
-      self.base_path = Path(entry_file).resolve().parent
-    else:
-      self.base_path = Path.cwd()
+    if root: self.base_path=Path(root).resolve()
+    elif entry_file: self.base_path=Path(entry_file).resolve().parent
+    else: self.base_path=Path.cwd()
 
-    self.std_path = (
-        Path(__file__)
-          .resolve()
-          .parent
-          .parent
+    self.std_path=(
+      Path(__file__)
+        .resolve()
+        .parent
+        .parent
     )
-
-    self._current_exports = None
 
   def visit(self,node):
     method_name=f'visit_{type(node).__name__}'
@@ -62,5 +64,5 @@ class Interpreter(
 
     return visitor(node)
 
-  def generic_visit(self, node):
+  def generic_visit(self,node):
     raise Exception(f'Method visit_{type(node).__name__} does not exist.')

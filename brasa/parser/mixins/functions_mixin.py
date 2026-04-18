@@ -68,7 +68,7 @@ class FunctionsMixin:
       return_type=VoidType()
 
     return LambdaExpression(
-      parameters=parameters,
+      params=parameters,
       return_type=return_type,
       body=body
     )

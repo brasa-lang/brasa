@@ -10,8 +10,4 @@ class Identifier:
 
 @dataclass
 class Block:
-  statements:any
-
-@dataclass
-class PrintStatement:
-  expr:any
+  statements:list[any]

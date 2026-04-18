@@ -1,18 +1,22 @@
 from brasa.core.utils.print import to_python
 
 from brasa.core.nodes.primitive_values import StringValue
+from brasa.core.nodes.functions import VoidValue
 
-def diga(text=''):
+def diga(obj=''):
   print(
-    to_python(text),
+    to_python(obj),
     end=''
   )
 
-def diga_nl(text=''):
-  print(to_python(text))
+  return VoidValue()
 
-def leia():
-  return StringValue(value=input())
+def diga_nl(obj=''):
+  print(to_python(obj))
+
+  return VoidValue()
+
+def leia(): return StringValue(value=input())
 
 exports={
   'diga':diga,

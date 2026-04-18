@@ -1,28 +1,28 @@
 from dataclasses import dataclass
 
 @dataclass
-class ImportStatement:
-  path:any
-  alias:any
-
-@dataclass
-class ExportItem:
-  name:any
-  alias:any
-
-@dataclass
-class ExportStatement:
-  items:any
+class ModuleType: pass
 
 @dataclass
 class ModuleValue:
-  name:any
-  exports:any
-
-@dataclass
-class ModuleType:pass
+  name:str
+  exports:list[any]
 
 @dataclass
 class Member:
   obj:any
-  name:any
+  name:str
+
+@dataclass
+class ImportStatement:
+  path:str
+  alias:str
+
+@dataclass
+class ExportStatement:
+  items:list[any]
+
+@dataclass
+class ExportItem:
+  name:str
+  alias:str

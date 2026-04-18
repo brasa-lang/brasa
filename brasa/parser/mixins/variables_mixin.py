@@ -48,7 +48,7 @@ class VariablesMixin:
     expr
   ):
     return AssignmentStatement(
-      target=target,
+      lvalue=target,
       expr=expr
     )
 
@@ -60,7 +60,7 @@ class VariablesMixin:
     expr
   ):
     return CompoundAssignmentStatement(
-      target=target,
+      lvalue=target,
       op=op,
       expr=expr
     )

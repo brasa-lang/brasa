@@ -5,14 +5,9 @@ from brasa.core.types.types import Type
 
 @dataclass
 class ArrayType(Type):
-  element_type:any
+  element_type:Type
   size:any
 
 @dataclass
 class ArrayValue(Value):
   elements:list[Value]
-
-@dataclass
-class IndexExpression:
-  base:any
-  index:any

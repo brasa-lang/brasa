@@ -1,5 +1,6 @@
 from brasa.core.runtime.scope import Scope
 
+from brasa.core.nodes.functions import ReturnStatement
 from brasa.core.nodes.functions import FunctionValue,BuiltinFunction
 from brasa.core.types.signals import ReturnSignal
 
@@ -63,10 +64,9 @@ class FunctionsMixin:
 
     return result
 
-  def visit_ReturnStatement(self, node):
+  def visit_ReturnStatement(self,node:ReturnStatement):
     value=None
 
-    if node.expr:
-      value=self.visit(node.expr)
+    if node.expr is not None: value=self.visit(node.expr)
 
     raise ReturnSignal(value)

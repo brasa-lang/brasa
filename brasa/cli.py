@@ -30,9 +30,6 @@ def main(filename,root):
   """
 
   if filename is not None:
-    print(root)
-    print(root)
-    print(root)
     run_file(filename,root=root)
   else:
     repl()

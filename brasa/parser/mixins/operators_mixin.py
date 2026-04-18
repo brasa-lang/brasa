@@ -12,16 +12,13 @@ class OperatorsMixin:
       '-=':BinaryOperationEnum.SUBTRACTION,
       '*=':BinaryOperationEnum.MULTIPLICATION,
       '/=':BinaryOperationEnum.DIVISION,
+      '%=':BinaryOperationEnum.REMAINDER,
     }[token]
 
   @v_args(inline=True)
-  def OP_POSTFIX(self, token):
-    if token=='++':
-      return BinaryOperationEnum.ADDITION
-
+  def OP_POSTFIX(self,token):
+    if token=='++': return BinaryOperationEnum.ADDITION
     return BinaryOperationEnum.SUBTRACTION
-
-  # ---------------- ### ---------------- #
 
   @v_args(inline=True)
   def add(self,left,right):
@@ -144,6 +141,6 @@ class OperatorsMixin:
   @v_args(inline=True)
   def postfix(self,target,op):
     return PostfixStatement(
-      target=target,
+      lvalue=target,
       op=op
     )

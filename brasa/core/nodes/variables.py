@@ -12,16 +12,16 @@ class VariableDeclarationStatement:
 
 @dataclass
 class AssignmentStatement:
-  target:str
+  lvalue:str
   expr:Value
 
 @dataclass
 class CompoundAssignmentStatement:
-  target:any
+  lvalue:any
   op:any
   expr:any
 
 @dataclass
 class PostfixStatement:
-  target:any
+  lvalue:any
   op:any

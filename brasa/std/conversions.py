@@ -1,53 +1,38 @@
-from brasa.core.nodes.primitive_values import IntegerValue,FloatValue,StringValue,NullValue
+from brasa.core.nodes.primitive_values import IntegerValue,FloatValue,StringValue
 
-def to_int(value):
-  if isinstance(value, IntegerValue):
-    return value
+from brasa.core.utils.types import is_int,is_float,is_string,is_number,is_null
 
-  if isinstance(value, FloatValue):
-    return IntegerValue(int(value.value))
+def to_int(obj):
+  if is_int(obj): return obj
+  if is_float(obj): return IntegerValue(int(obj.value))
 
-  if isinstance(value, StringValue):
-      try:
-          return IntegerValue(int(value.value))
-      except ValueError:
-          raise Exception(f'Cannot convert "{value.value}" to int')
+  if is_string(obj):
+    try:
+      return IntegerValue(int(obj.value))
+    except ValueError:
+      raise Exception(f'Cannot convert "{obj.value}" to int')
 
-  raise Exception(f"Cannot convert {type(value).__name__} to int")
+  raise Exception(f"Cannot convert {type(obj).__name__} to int")
 
-def to_real(value):
-  if isinstance(value, FloatValue):
-      return value
+def to_real(obj):
+  if is_float(obj): return obj
+  if is_int(obj): return FloatValue(float(obj.value))
 
-  if isinstance(value, IntegerValue):
-      return FloatValue(float(value.value))
+  if is_string(obj):
+    try:
+      return FloatValue(float(obj.value))
+    except ValueError:
+      raise Exception(f'Cannot convert "{obj.value}" to real')
 
-  if isinstance(value, StringValue):
-      try:
-          return FloatValue(float(value.value))
-      except ValueError:
-          raise Exception(f'Cannot convert "{value.value}" to real')
+  raise Exception(f'Cannot convert {type(obj).__name__} to real')
 
-  raise Exception(f"Cannot convert {type(value).__name__} to real")
+def to_texto(obj):
+  if is_string(obj): return obj
+  if is_number(obj): return StringValue(str(obj.value))
+  if is_null(obj): return StringValue('nulo')
 
-def to_texto(value):
-    if isinstance(value, StringValue):
-        return value
-
-    if isinstance(value, IntegerValue):
-        return StringValue(str(value.value))
-
-    if isinstance(value, FloatValue):
-        return StringValue(str(value.value))
-
-    if isinstance(value, NullValue):
-        return StringValue("nulo")
-
-    # you may add BooleanValue later
-    return StringValue(str(value))
-
-exports = {
-  'int': to_int,
-  'real': to_real,
-  'texto': to_texto,
+exports={
+  'int':to_int,
+  'real':to_real,
+  'texto':to_texto,
 }

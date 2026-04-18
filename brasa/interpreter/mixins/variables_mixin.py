@@ -1,4 +1,5 @@
-from brasa.core.types.operators import BinaryOperationEnum
+from brasa.core.nodes.primitive_values import IntegerValue,NullValue
+from brasa.core.utils.operators.map import BINARY_OPS_MAP
 
 class VariablesMixin:
   def visit_Identifier(self,node):
@@ -7,9 +8,9 @@ class VariablesMixin:
     return self.world.get_value(entity_id)
 
   def visit_VariableDeclarationStatement(self,node):
-    value=self.visit(node.expr) if node.expr is not None else None
+    value=self.visit(node.expr) if node.expr is not None else NullValue
 
-    var_id=self.world.create(
+    entity_id=self.world.create(
       type=node.type,
       value=value,
       is_const=node.is_const
@@ -17,34 +18,26 @@ class VariablesMixin:
 
     self.current_scope.declare(
       name=node.id.name,
-      entity_id=var_id
+      entity_id=entity_id
     )
 
   def visit_AssignmentStatement(self,node):
     value=self.visit(node.expr)
-    node.target.set(self,value)
+    node.lvalue.set(self,value)
 
-  def visit_CompoundAssignmentStatement(self, node):
-    current=node.target.get(self)
+  def visit_CompoundAssignmentStatement(self,node):
+    current=node.lvalue.get(self)
     value=self.visit(node.expr)
 
-    if node.op==BinaryOperationEnum.ADDITION:
-      result=current+value
-    elif node.op==BinaryOperationEnum.SUBTRACTION:
-      result=current-value
-    elif node.op==BinaryOperationEnum.MULTIPLICATION:
-      result= current*value
-    elif node.op==BinaryOperationEnum.DIVISION:
-      result=current/value
+    func=BINARY_OPS_MAP[node.op]
+    result=func(current,value)
 
-    node.target.set(self,result)
+    node.lvalue.set(self,result)
 
   def visit_PostfixStatement(self,node):
-    current=node.target.get(self)
+    current=node.lvalue.get(self)
 
-    if node.op==BinaryOperationEnum.ADDITION:
-      new_value=current+1
-    else:
-      new_value=current-1
+    func=BINARY_OPS_MAP[node.op]
+    new_value=func(current,IntegerValue(1))
 
-    node.target.set(self,new_value)
+    node.lvalue.set(self,new_value)
