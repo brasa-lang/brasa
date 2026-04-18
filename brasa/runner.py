@@ -39,7 +39,7 @@ def run_code(
       parser=parser
     )
 
-  interpreter.visit(ast)
+  return interpreter.visit(ast)
 
 def run_file(
   file_path:str,

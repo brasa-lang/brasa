@@ -4,7 +4,10 @@ from importlib import metadata
 from brasa.runner import Interpreter
 from brasa.runner import run_code
 
-def repl():
+def repl(
+  entry_file=None,
+  root=None
+):
   ascii_art=r'''
 ==========================================================
  _______    _______        __        ________     __      
@@ -28,7 +31,10 @@ def repl():
 
   print()
 
-  interpreter=Interpreter()
+  interpreter=Interpreter(
+    entry_file=entry_file,
+    root=root
+  )
   buffer=''
 
   while True:
@@ -56,7 +62,7 @@ def repl():
       try:
         result=run_code(
           buffer,
-          interpreter=interpreter
+          interpreter=interpreter,
         )
 
         buffer=''
@@ -67,8 +73,6 @@ def repl():
           buffer=''
       except Exception as e:
         pass
-        # click.secho(f'Error: {e}',fg='red',bold=True)
-        # buffer=''
     except EOFError:
       bye_message()
       break

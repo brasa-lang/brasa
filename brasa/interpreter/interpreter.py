@@ -35,7 +35,7 @@ class Interpreter(
     self,
     entry_file,
     root,
-    parser
+    parser=None
   ):
     self.current_scope=Scope()
     self.world=World()

@@ -14,7 +14,10 @@ __version__=metadata.version('brasa-lang')
 )
 @click.option(
   '--root',
-  type=click.Path(exists=True, file_okay=False),
+  type=click.Path(
+    exists=True,
+    file_okay=False
+  ),
   help='Root directory for module resolution'
 )
 @click.version_option(
@@ -30,9 +33,15 @@ def main(filename,root):
   """
 
   if filename is not None:
-    run_file(filename,root=root)
+    run_file(
+      filename,
+      root=root
+    )
   else:
-    repl()
+    repl(
+      filename,
+      root=root
+    )
 
 if __name__=='__main__':
   main()
